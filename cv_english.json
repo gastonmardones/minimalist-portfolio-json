@@ -1,68 +1,42 @@
 {
   "basics": {
-    "name": "Miguel Ángel Durán",
-    "label": "Full-Stack developer with more than 15 years of experience & development content creator",
-    "image": "/me.webp",
-    "email": "miduga@gmail.com",
-    "phone": "+34 688888888",
-    "url": "https://midu.dev",
-    "summary": "+15 years of experience as a web developer. Currently I am a content creator and development dommunicator. I live in Barcelona, Spain. I have worked in different environments: from accelerating the development of start-ups to leading teams in multinational companies.",
+    "name": "Gastón Mardones",
+    "label": "Full Stack Developer",
+    "image": "/me.jpeg",
+    "email": "gastonmardones22@gmail.com",
+    "phone": "+54 294 4321600",
+    "url": "",
+    "summary": "As a fullstack developer with a focus on the Django framework, I have been playing an integral role in the creation and enhancement of web solutions specifically targeted at schools and educational environments. My role has been centered around developing innovative and functional tools to enhance the educational and administrative experience.",
     "location": {
-      "address": "",
-      "postalCode": "08820",
-      "city": "el Prat de Llobregat",
-      "countryCode": "ES",
-      "region": "Spain"
+      "address": "Villa Crespo",
+      "postalCode": "1416",
+      "city": "Buenos Aires",
+      "countryCode": "AR",
+      "region": "Argentina"
     },
     "profiles": [
       {
         "network": "LinkedIn",
-        "username": "midudev",
-        "url": "https://linkedin.com/in/midudev"
-      },
-      {
-        "network": "X",
-        "username": "midudev",
-        "url": "https://x.com/midudev"
+        "username": "gaston-mardones",
+        "url": "https://linkedin.com/in/gaston-mardones"
       },
       {
         "network": "GitHub",
-        "username": "midudev",
-        "url": "https://github.com/midudev"
+        "username": "gastonmardones",
+        "url": "https://github.com/gastonmardones"
       }
     ]
   },
   "work": [
     {
-      "name": "midudev",
-      "position": "Web programming communicator",
-      "url": "https://twitch.tv/midudev",
+      "name": "EduAnalytica",
+      "position": "Full Stack Web Developer",
+      "url": "https://eduanalytica.com.ar/",
       "startDate": "2021-01-01",
       "endDate": null,
-      "summary": "Most watched development streamer in Spanish on Twitch. +1 million followers across all my social networks. Recognised by Google, Microsoft and GitHub for my impact on the development community.",
+      "summary": "As a fullstack developer with a focus on the Django framework, I have been playing an integral role in the creation and enhancement of web solutions specifically targeted at schools and educational environments. My role has been centered around developing innovative and functional tools to enhance the educational and administrative experience.",
       "highlights": [
-        "Started the company"
-      ]
-    },
-    {
-      "name": "Adevinta",
-      "position": "Lead Frontend Architect",
-      "url": "https://twitch.tv/midudev",
-      "startDate": "2016-06-01",
-      "endDate": "2022-09-01",
-      "summary": "I led a technical convergence between different products and migrated from a monolithic architecture to a more flexible and optimised one. I fostered best practices and performance culture improvements, as well as rapid delivery of value to users.",
-      "highlights": [
-        "Started the company"
-      ]
-    },
-    {
-      "name": "Hubii",
-      "position": "Senior FrontEnd Developer",
-      "startDate": "2011-03-01",
-      "endDate": "2016-05-01",
-      "summary": "I developed a geolocated news platform and an API to consume the information. Scaled services to support the load of over hundreds of thousands of requests per day. Cut delivery times and deployments to production by half. Collaborated with Mozilla and Telefónica to develop the first FirefoxOS TV app.",
-      "highlights": [
-        "Started the company"
+        null
       ]
     }
   ],
@@ -78,15 +52,15 @@
     ]
   }],
   "education": [{
-    "institution": "Universitat Oberta de Catalunya",
-    "url": "https://www.uoc.edu/portal/es/index.html",
-    "area": "Software Engineer",
+    "institution": "University of Buenos Aires",
+    "url": "https://www.uba.ar/",
+    "area": "Data Science",
     "studyType": "Bachelor",
-    "startDate": "2003-01-01",
-    "endDate": "2009-01-01",
-    "score": "4.0",
+    "startDate": "2023-01-01",
+    "endDate": null,
+    "score": null,
     "courses": [
-      "DB1101 - Basic SQL"
+      null
     ]
   }],
   "awards": [{
@@ -110,80 +84,87 @@
   }],
   "skills": [
     {
-      "name": "HTML",
-      "level": "Master",
+      "name": "Python",
+      "level": "Advanced",
       "keywords": [
-        "Web development", "Frontend"
+        "Web Development", "Frontend", "Backend", "JavaScript Superset"
+      ]
+    },
+    {
+      "name": "Django",
+      "level": "Advanced",
+      "keywords": [
+        "Web Development", "Backend", "Python", "Server"
+      ]
+    },
+    {
+      "name": "HTML",
+      "level": "Intermediate",
+      "keywords": [
+        "Web Development", "Frontend"
       ]
     },
     {
       "name": "CSS",
-      "level": "Master",
+      "level": "Basic",
       "keywords": [
-        "Web development", "Frontend", "Diseño Responsive"
+        "Web Development", "Frontend", "Responsive Design"
       ]
     },
     {
       "name": "JavaScript",
-      "level": "Master",
+      "level": "Intermediate",
       "keywords": [
-        "Web development", "Frontend", "Backend", "Fullstack"
+        "Web Development", "Frontend", "Backend", "Fullstack"
       ]
     },
     {
       "name": "Tailwind",
-      "level": "Advanced",
+      "level": "Basic",
       "keywords": [
-        "Web development", "Frontend", "CSS Framework", "Diseño Responsive"
+        "Web Development", "Frontend", "CSS Framework", "Responsive Design"
       ]
     },
     {
       "name": "TypeScript",
-      "level": "Advanced",
+      "level": "Basic",
       "keywords": [
-        "Web development", "Frontend", "Backend", "JavaScript Superset"
-      ]
-    },
-    {
-      "name": "Node",
-      "level": "Advanced",
-      "keywords": [
-        "Web development", "Backend", "JavaScript", "Servidor"
+        "Web Development", "Frontend", "Backend", "JavaScript Superset"
       ]
     },
     {
       "name": "MySQL",
-      "level": "Advanced",
+      "level": "Intermediate",
       "keywords": [
-        "Bases de Datos", "SQL", "Database", "Backend"
+        "Databases", "SQL", "Backend"
       ]
     },
     {
       "name": "Git",
-      "level": "Advanced",
+      "level": "Intermediate",
       "keywords": [
-        "Version control", "Colaboración", "Source code"
+        "Version Control", "Colaboration", "Source Code"
       ]
     },
     {
       "name": "GitHub",
-      "level": "Advanced",
+      "level": "Avanzado",
       "keywords": [
-        "Version control", "Collaboration", "Source code", "Git"
+        "Version Control", "Colaboration", "Source Code", "Git"
       ]
     },
     {
-      "name": "Next.js",
-      "level": "Advanced",
+      "name": "Astro",
+      "level": "Basic",
       "keywords": [
-        "Web development", "Frontend", "React Framework", "SSR", "Static Generation"
+        "Web Development", "Frontend", "React Framework", "SSR", "Static Generation"
       ]
     },
     {
       "name": "React",
-      "level": "Advanced",
+      "level": "Basic",
       "keywords": [
-        "Web development", "Frontend", "JavaScript Library", "UI"
+        "Web Development", "Frontend", "JavaScript Library", "UI"
       ]
     }
   ],
@@ -194,7 +175,7 @@
     },
     {
       "language": "English",
-      "fluency": "Advanced"
+      "fluency": "Intermediate"
     }
   ],
   "interests": [{
@@ -210,66 +191,15 @@
   }],
   "projects": [
     {
-      "name": "mars.codes",
-      "isActive": true,
-      "description": "Interactive story with programming challenges to travel to Mars",
+      "name": "Facundo Pereyra Web",
+      "isActive": false,
+      "description": "Página web para un estilista",
       "highlights": [
-        "Choose your own adventure",
-        "In progress"
+        "Landing Page",
+        "En desarrollo"
       ],
-      "url": "https://mars.codes"
-    },
-    {
-      "name": "AdventJS",
-      "isActive": true,
-      "description": "JavaScript programming challenges for every day of December until Christmas",
-      "highlights": [
-        "+1 million visits",
-        "Multilanguage",
-        "JavaScript & TypeScript"
-      ],
-      "url": "https://advent.js/dev"
-    },
-    {
-      "name": "Codember",
-      "isActive": true,
-      "description": "Interactive programming game with challenges and secrets",
-      "highlights": [
-        "+2000 active users",
-        "Challenges for any language"
-      ],
-      "url": "https://codember.dev"
-    },
-    {
-      "name": "codi.link",
-      "isActive": true,
-      "description": "Playground of HTML, CSS and JavaScript code for sharing",
-      "highlights": [
-        "100k monthly visit",
-        "Developed by the community"
-      ],
-      "url": "https://codi.link",
-      "github": "https://github.com/midudev/codi.link"
-    },
-    {
-      "name": "Pruebas Técnicas",
-      "isActive": true,
-      "description": "List of technical tests of companies to practice programming",
-      "highlights": [
-        "100% free",
-        "+500 community solutions"
-      ],
-      "url": "https://pruebastecnicas.com",
-      "github": "https://github.com/midudev/pruebas-tecnicas"
-    },
-    {
-      "name": "miduConf",
-      "description": "Streaming programming conference for the Spanish-speaking community with top talks",
-      "highlights": [
-        "+15k tickets handed over",
-        "+50k live viewers"
-      ],
-      "url": "https://miduconf.com"
+      "url": "",
+      "github": ""
     }
   ]
 }

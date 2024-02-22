@@ -18,7 +18,12 @@ import { projects } from "@cv"
                     <a href={url} target="_blank" title={`Ver el proyecto ${name}`}>
                       {name}
                     </a>
-                    {isActive && <span>•</span>}
+                    <span class:list={[
+                      {
+                        "active": isActive,
+                        "inactive": !isActive
+                      }
+                    ]}>•</span>
                     {github && (
                       <a
                         class="github-code-link"
@@ -86,8 +91,16 @@ import { projects } from "@cv"
     margin-bottom: 4px;
   }
 
-  article h3 span {
+  .active {
     color: rgb(0, 188, 47);
+    animation-name: flicker;
+    animation-duration: 3s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
+  }
+
+  .inactive {
+    color: rgb(188, 0, 0);
     animation-name: flicker;
     animation-duration: 3s;
     animation-timing-function: ease-in;

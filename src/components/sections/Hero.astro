@@ -10,7 +10,7 @@ import WorldMap from "@/icons/WorldMap.astro"
 import type { SocialIcon } from "@/types"
 
 const { name, label, image, location, profiles, phone, email } = basics
-const { city, region } = location
+const { city, region, address } = location
 
 const SOCIAL_ICONS: SocialIcon = {
   GitHub,
@@ -31,7 +31,8 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
       <h2>{label}</h2>
       <span>
         <WorldMap />
-        {city}, {region}
+        <a href={`https://www.google.com/maps/place/${city} ${address}`} target="_blank">{address}, {city}, {region}</a>
+        
       </span>
       <footer class="print">
         {printInfo}
