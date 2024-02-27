@@ -63,7 +63,19 @@
     "courses": [
       null
     ]
-  }],
+  },
+  {
+  "institution": "IFTS Buenos Aires",
+  "url": "https://agenciadeaprendizaje.bue.edu.ar/curso/tecnicatura-superior-en-desarrollo-de-software/",
+  "area": "Tecnicatura Superior en Desarrollo de Software",
+  "studyType": "Tecnicatura",
+  "startDate": "2024-04-04",
+  "endDate": null,
+  "score": null,
+  "courses": [
+    null
+  ]}
+],
   "awards": [{
     "title": "Award",
     "date": "2014-11-01",
