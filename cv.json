@@ -57,24 +57,13 @@
     "url": "https://www.uba.ar/",
     "area": "Lic. en Ciencias de Datos",
     "studyType": "Licenciatura",
-    "startDate": "2023-01-01",
+    "startDate": "2024-01-01",
     "endDate": null,
     "score": null,
     "courses": [
       null
     ]
   },
-  {
-  "institution": "IFTS Buenos Aires",
-  "url": "https://agenciadeaprendizaje.bue.edu.ar/curso/tecnicatura-superior-en-desarrollo-de-software/",
-  "area": "Tecnicatura Superior en Desarrollo de Software",
-  "studyType": "Tecnicatura",
-  "startDate": "2024-04-04",
-  "endDate": null,
-  "score": null,
-  "courses": [
-    null
-  ]}
 ],
   "awards": [{
     "title": "Award",
