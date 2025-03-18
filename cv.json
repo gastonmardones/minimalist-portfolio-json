@@ -5,7 +5,7 @@
     "image": "/me.jpeg",
     "email": "gastonmardones22@gmail.com",
     "phone": "+54 294 4321600",
-    "cv_url": "https://drive.google.com/file/d/1_E25uKISLu6cr4NL-Tm5QvKpKBxTF1Hm/view?usp=sharing",
+    "cv_url": "https://drive.google.com/file/d/1xkfM1lV_YkCbE8Ic6l0QD3G7ZmHzCEvA/view?usp=sharing",
     "url": "",
     "summary": "Soy una persona autodidacta con mucha pasión por la tecnología y el impacto que generan en el mundo. Tengo la curiosidad de aprender todos los días algo diferente, la motivación para afrontar nuevos desafíos y la necesidad de estar rodeado de personas con intereses similares, siempre con el mismo objetivo: buscar oportunidades para seguir aprendiendo.",
     "location": {
@@ -53,11 +53,11 @@
     ]
   }],
   "education": [{
-    "institution": "Universidad de Buenos Aires",
-    "url": "https://www.uba.ar/",
-    "area": "Lic. en Ciencias de Datos",
-    "studyType": "Licenciatura",
-    "startDate": "2024-01-01",
+    "institution": "IFTS N°18",
+    "url": "https://www.ifts18.edu.ar/carreras/ciencia-de-datos",
+    "area": "Técnico superior en Ciencias de Datos e Inteligencia Artificial",
+    "studyType": "Técnicatura",
+    "startDate": "2025-03-17",
     "endDate": null,
     "score": null,
     "courses": [

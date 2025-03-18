@@ -5,7 +5,7 @@
     "image": "/me.jpeg",
     "email": "gastonmardones22@gmail.com",
     "phone": "+54 294 4321600",
-    "cv_url": "https://drive.google.com/file/d/18CJdFYR5pdK7kW3z4Rn50hsxbfMMT1EZ/view?usp=sharing",
+    "cv_url": "https://drive.google.com/file/d/16pYj-xFBTkrxo36wgpZLA1nIs08VndF2/view?usp=sharing",
     "url": "",
     "summary": "I am a self-taught individual with a great passion for technology and the impact it generates in the world. I have a curiosity to learn something different every day, the motivation to tackle new challenges, and the need to be surrounded by people with similar interests, all with the same goal: to seek opportunities to keep learning. I can understand and write in English, but my ability to hold fluent conversations is limited. I'm looking for a job that would allow me to practice and enhance my spoken English skills.",
     "location": {
@@ -53,11 +53,11 @@
     ]
   }],
   "education": [{
-    "institution": "University of Buenos Aires",
-    "url": "https://www.uba.ar/",
-    "area": "Data Science",
-    "studyType": "Bachelor",
-    "startDate": "2023-01-01",
+    "institution": "IFTS N°18",
+    "url": "https://www.ifts18.edu.ar/carreras/ciencia-de-datos",
+    "area": "Higher Technician in Data Science and Artificial Intelligence",
+    "studyType": "Technical Degree",
+    "startDate": "2025-03-17",
     "endDate": null,
     "score": null,
     "courses": [
