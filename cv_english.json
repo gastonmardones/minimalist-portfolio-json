@@ -181,38 +181,6 @@
       ]
     }
   ],
-  "languages": [
-    {
-      "language": "Spanish",
-      "fluency": "Native speaker"
-    },
-    {
-      "language": "English",
-      "fluency": "Intermediate"
-    }
-  ],
-  "interests": [{
-    "name": "Wildlife",
-    "keywords": [
-      "Ferrets",
-      "Unicorns"
-    ]
-  }],
-  "references": [{
-    "name": "Jane Doe",
-    "reference": "Reference…"
-  }],
   "projects": [
-    {
-      "name": "Facundo Pereyra Web",
-      "isActive": false,
-      "description": "Página web para un estilista",
-      "highlights": [
-        "Landing Page",
-        "En desarrollo"
-      ],
-      "url": "",
-      "github": ""
-    }
   ]
 }
