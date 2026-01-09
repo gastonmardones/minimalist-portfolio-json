@@ -30,6 +30,17 @@
   },
   "work": [
     {
+      "name": "Agencia de Sistemas de Información (ASI) - Gobierno de la ciudad de Buenos Aires",
+      "position": "DevOps",
+      "url": "https://buenosaires.gob.ar/agencia-de-sistemas-de-informacion",
+      "startDate": "2025-01-05",
+      "endDate": null,
+      "summary": "Homologación y despliegue de aplicaciones asegurando el cumplimiento de estándares técnicos gubernamentales, ejecutando despliegues automatizados en OpenShift y realizando el setup completo de proyectos nuevos mediante la configuración de pipelines CI/CD con Tekton y Argo CD. Evalúo métricas de rendimiento y proporciono recomendaciones técnicas orientadas a la optimización de aplicaciones y al cumplimiento de los estándares establecidos. Además, coordino reuniones con proveedores y trabajo de forma colaborativa con equipos de infraestructura, desarrollo, planificación y proyectos para garantizar una integración técnica exitosa, brindando también soporte técnico de segundo nivel mediante el análisis de logs y la resolución de incidencias críticas.",
+      "highlights": [
+        null
+      ]
+    },
+    {
       "name": "EduAnalytica",
       "position": "Full Stack Web Developer",
       "url": "https://eduanalytica.com.ar/",
