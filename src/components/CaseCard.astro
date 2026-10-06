@@ -1,0 +1,101 @@
+---
+import { casePath, t, type Lang } from "@/i18n"
+import { caseKey, caseLang, formatMonth, type CaseEntry } from "@/lib/cases"
+
+interface Props {
+  entry: CaseEntry
+}
+
+const { entry } = Astro.props
+const lang: Lang = caseLang(entry)
+const ui = t(lang)
+const { title, summary, tags, date, draft } = entry.data
+---
+
+<a class="card" href={casePath(lang, caseKey(entry))} title={`${ui.readCase}: ${title}`}>
+  <article>
+    <header>
+      <time datetime={date.toISOString().slice(0, 10)}>{formatMonth(date, lang)}</time>
+      {draft && <span class="draft">{ui.draft}</span>}
+      <h3>{title}</h3>
+      <p>{summary}</p>
+    </header>
+    <footer>
+      {tags.map((tag) => <span class="chip">{tag}</span>)}
+    </footer>
+  </article>
+</a>
+
+<style>
+  .card {
+    display: block;
+    height: 100%;
+  }
+
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-soft);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover article {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  header {
+    flex: 1;
+  }
+
+  time {
+    color: var(--muted);
+    font-size: 0.7rem;
+  }
+
+  time {
+    display: inline-block;
+  }
+
+  time::first-letter {
+    text-transform: uppercase;
+  }
+
+  .draft {
+    margin-left: 8px;
+    color: #b45309;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 6px 0;
+    text-wrap: balance;
+  }
+
+  .card:hover h3 {
+    color: var(--accent);
+  }
+
+  p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+</style>

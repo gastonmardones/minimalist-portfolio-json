@@ -1,0 +1,515 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import TopBar from "@/components/TopBar.astro"
+
+import {
+  FOCUSES,
+  FOCUS_CATEGORIES,
+  SKILL_CATEGORIES,
+  cvPath,
+  cvPdfPath,
+  getCV,
+  getLang,
+  otherLang,
+  t,
+} from "@/i18n"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const cv = getCV(lang)
+const { basics, work, education, certificates, skills, languages } = cv
+const { name, label, email, phone, location, profiles, url, summary } = basics
+
+const year = (date: string) => new Date(date).getUTCFullYear()
+const host = (link: string) => link.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")
+
+const contact = [
+  [email, phone, `${location.city}, ${location.region}`],
+  [...profiles.map((profile) => host(profile.url)), host(url)],
+]
+
+const skillGroups = SKILL_CATEGORIES.map((category) => ({
+  category,
+  items: skills.filter((skill) => skill.category === category).map((skill) => skill.name),
+})).filter(({ items }) => items.length > 0)
+
+// Configuración para el script del cliente
+const config = {
+  param: ui.cvFocusParam,
+  values: ui.cvFocusValues,
+  roles: ui.cvRoleByFocus,
+  categories: FOCUS_CATEGORIES,
+  copied: ui.cvCopied,
+  copy: ui.cvCopyLink,
+}
+---
+
+<Layout
+  title={ui.cvTitle(name)}
+  description={summary}
+  alternates={{ es: cvPath("es"), en: cvPath("en") }}
+>
+  <TopBar alternate={cvPath(otherLang(lang))} />
+
+  <div class="toolbar no-print">
+    <p class="hint">{ui.cvHint}</p>
+    <div class="row">
+      <div class="focus" role="group" aria-label={ui.cvFocus}>
+        <span class="label">{ui.cvFocus}:</span>
+        <button type="button" data-focus-btn="" aria-pressed="true">{ui.cvFocusGeneral}</button>
+        {
+          FOCUSES.map((focus) => (
+            <button type="button" data-focus-btn={focus} aria-pressed="false">
+              {ui.cvFocusLabels[focus]}
+            </button>
+          ))
+        }
+      </div>
+      <div class="buttons">
+        <button type="button" id="cv-copy">{ui.cvCopyLink}</button>
+        <button type="button" id="cv-print">{ui.cvPrint}</button>
+        <a href={cvPdfPath(lang)} download class="primary">{ui.cvDownload}</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="sheet" id="cv" data-config={JSON.stringify(config)}>
+    <header class="head">
+      <h1>{name}</h1>
+      <p class="role" id="cv-role" data-default={label}>{label}</p>
+      <p class="contact">{contact.map((line) => <span>{line.join("  ·  ")}</span>)}</p>
+    </header>
+
+    <section>
+      <p class="summary">{summary}</p>
+    </section>
+
+    <section>
+      <h2>{ui.experience}</h2>
+      {
+        work.map(({ name: company, position, startDate, endDate, highlights }) => (
+          <article class="job">
+            <header>
+              <h3>
+                {company} <span class="position">— {position}</span>
+              </h3>
+              <time>
+                {year(startDate)} – {endDate != null ? year(endDate) : ui.present}
+              </time>
+            </header>
+            <ul data-highlights>
+              {highlights.map(({ text, focus }, index) => (
+                <li data-focus={focus.join(" ")} data-index={index}>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="two-col">
+      <div>
+        <h2>{ui.education}</h2>
+        {
+          education.map(({ institution, area, endDate }) => (
+            <p class="line">
+              <strong>{area}</strong> · {institution}
+              {endDate && <span class="date"> · {year(endDate)}</span>}
+            </p>
+          ))
+        }
+        {
+          certificates.length > 0 && (
+            <>
+              <h2 class="sub">{ui.certificates}</h2>
+              {certificates.map(({ name: cert, issuer, date }) => (
+                <p class="line">
+                  <strong>{cert}</strong> · {issuer} <span class="date">· {year(date)}</span>
+                </p>
+              ))}
+            </>
+          )
+        }
+      </div>
+      <div>
+        <h2>{ui.languages}</h2>
+        {
+          languages.map(({ language, fluency }) => (
+            <p class="line">
+              <strong>{language}</strong>: {fluency}
+            </p>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>{ui.skills}</h2>
+      <dl class="skills" data-skills>
+        {
+          skillGroups.map(({ category, items }) => (
+            <div data-category={category}>
+              <dt>{ui.skillCategories[category]}</dt>
+              <dd>{items.join(" · ")}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  type Focus = "devsecops" | "platform" | "data"
+  interface Config {
+    param: string
+    values: Record<Focus, string>
+    roles: Record<Focus, string>
+    categories: Record<Focus, string[]>
+    copied: string
+    copy: string
+  }
+
+  const MAX_WITH_FOCUS = 6
+  const sheet = document.getElementById("cv")
+  const config = JSON.parse(sheet?.dataset.config ?? "{}") as Config
+  const role = document.getElementById("cv-role")
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-focus-btn]")]
+
+  // Acepta tanto el valor localizado (?enfoque=plataforma) como la clave (?focus=platform)
+  const parseFocus = (): Focus | null => {
+    const params = new URLSearchParams(location.search)
+    const raw = (params.get(config.param) ?? params.get("focus") ?? "").toLowerCase()
+    const entries = Object.entries(config.values) as [Focus, string][]
+    const found = entries.find(([key, value]) => raw === key || raw === value)
+    return found ? found[0] : null
+  }
+
+  const apply = (focus: Focus | null) => {
+    // Bullets: primero los del enfoque; el resto se oculta
+    document.querySelectorAll<HTMLUListElement>("[data-highlights]").forEach((list) => {
+      const items = [...list.querySelectorAll<HTMLLIElement>("li")]
+      items.sort((a, b) => Number(a.dataset.index) - Number(b.dataset.index))
+      if (focus) {
+        items.sort((a, b) => {
+          const am = (a.dataset.focus ?? "").split(" ").includes(focus) ? 0 : 1
+          const bm = (b.dataset.focus ?? "").split(" ").includes(focus) ? 0 : 1
+          return am - bm
+        })
+      }
+      // Con enfoque: los del enfoque primero y, como máximo, 6 bullets por trabajo
+      items.forEach((item, position) => {
+        item.hidden = !!focus && position >= MAX_WITH_FOCUS
+        list.appendChild(item)
+      })
+    })
+
+    // Habilidades: se reordenan los grupos según el enfoque
+    const skills = document.querySelector<HTMLElement>("[data-skills]")
+    if (skills) {
+      const order = focus ? config.categories[focus] : null
+      const groups = [...skills.querySelectorAll<HTMLElement>("[data-category]")]
+      groups.sort((a, b) => {
+        if (!order) return 0
+        return order.indexOf(a.dataset.category ?? "") - order.indexOf(b.dataset.category ?? "")
+      })
+      groups.forEach((group) => skills.appendChild(group))
+    }
+
+    if (role) role.textContent = focus ? config.roles[focus] : role.dataset.default ?? ""
+
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", String((button.dataset.focusBtn || null) === focus))
+    })
+
+    const url = new URL(location.href)
+    url.searchParams.delete("focus")
+    url.searchParams.delete(config.param)
+    if (focus) url.searchParams.set(config.param, config.values[focus])
+    history.replaceState(null, "", url)
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => apply((button.dataset.focusBtn || null) as Focus | null))
+  })
+
+  document.getElementById("cv-print")?.addEventListener("click", () => window.print())
+
+  const copy = document.getElementById("cv-copy")
+  copy?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(location.href)
+      copy.textContent = config.copied
+      setTimeout(() => (copy.textContent = config.copy), 2000)
+    } catch {
+      window.prompt("", location.href)
+    }
+  })
+
+  apply(parseFocus())
+</script>
+
+<style>
+  .toolbar {
+    max-width: 210mm;
+    margin: 24px auto 16px;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hint {
+    font-size: 0.85rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .focus,
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .label {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    margin-right: 2px;
+  }
+
+  .toolbar button,
+  .toolbar a {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--fg-2);
+    cursor: pointer;
+    font: 500 0.78rem var(--font-mono);
+    padding: 6px 10px;
+    transition: all 0.2s ease;
+  }
+
+  .toolbar button:hover,
+  .toolbar a:hover {
+    border-color: var(--border-strong);
+    background: var(--chip);
+  }
+
+  .focus button[aria-pressed="true"],
+  .toolbar .primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  /* Hoja A4 */
+  .sheet {
+    box-sizing: border-box;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 48px;
+    padding: 14mm 15mm;
+    background: #fff;
+    color: #111;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0.08);
+    font-family: var(--font-sans);
+    font-size: 10.5pt;
+    line-height: 1.42;
+    /* La hoja siempre es clara, aunque la página esté en modo oscuro */
+    --fg: #111;
+    --fg-2: #222;
+    --muted: #444;
+    --accent: #0f766e;
+  }
+
+  .sheet h1 {
+    font-size: 24pt;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #111;
+  }
+
+  .role {
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 2px 0 6px;
+  }
+
+  .contact {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-mono);
+    font-size: 8.3pt;
+    color: #444;
+  }
+
+  .sheet section {
+    margin-top: 12px;
+  }
+
+  .sheet h2 {
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #111;
+    border-bottom: 1.5px solid #111;
+    padding-bottom: 3px;
+    margin-bottom: 7px;
+  }
+
+  .sheet h2.sub {
+    margin-top: 10px;
+  }
+
+  .sheet p {
+    color: #222;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .summary {
+    color: #222;
+  }
+
+  .job + .job {
+    margin-top: 9px;
+  }
+
+  .job header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .job h3 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: 0;
+  }
+
+  .position {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .job time,
+  .date {
+    font-size: 8.5pt;
+    color: #555;
+    white-space: nowrap;
+  }
+
+  .job ul {
+    margin-top: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .job li {
+    position: relative;
+    padding-left: 12px;
+    color: #222;
+  }
+
+  .job li::before {
+    content: "•";
+    position: absolute;
+    left: 2px;
+    color: var(--accent);
+  }
+
+  .job li[hidden] {
+    display: none;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 18px;
+  }
+
+  .line + .line {
+    margin-top: 3px;
+  }
+
+  .skills {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .skills div {
+    display: grid;
+    grid-template-columns: 38mm 1fr;
+    gap: 8px;
+  }
+
+  .skills dt {
+    font-weight: 700;
+    color: #111;
+  }
+
+  .skills dd {
+    margin: 0;
+    color: #222;
+  }
+
+  @media screen and (width <= 860px) {
+    .sheet {
+      width: auto;
+      min-height: 0;
+      margin: 0 16px 48px;
+      padding: 24px 20px;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+
+    .skills div {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0;
+      padding: 12mm 14mm;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      font-size: 9.6pt;
+    }
+
+    .sheet h1 {
+      font-size: 22pt;
+    }
+  }
+</style>

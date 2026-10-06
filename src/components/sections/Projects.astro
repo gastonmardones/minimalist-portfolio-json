@@ -63,7 +63,7 @@ const { projects } = getCV(lang)
 
   article {
     border-radius: 8px;
-    border: 1px solid #f2f2f2;
+    border: 1px solid var(--border);
     gap: 16px;
     display: flex;
     flex-direction: column;
@@ -80,7 +80,7 @@ const { projects } = getCV(lang)
   }
 
   article a {
-    color: #111;
+    color: var(--fg);
   }
 
   article a:hover {
@@ -118,8 +118,8 @@ const { projects } = getCV(lang)
 
   footer span {
     border-radius: 6px;
-    background: #eee;
-    color: #444;
+    background: var(--chip);
+    color: var(--fg-2);
     font-size: 0.6rem;
     font-weight: 500;
     padding: 0.2rem 0.6rem;
@@ -148,7 +148,7 @@ const { projects } = getCV(lang)
 
     article {
       border: none;
-      box-shadow: 0 1px 1px #f2f2f2;
+      box-shadow: 0 1px 1px var(--border);
       padding: 0 0 16px 0;
     }
   }

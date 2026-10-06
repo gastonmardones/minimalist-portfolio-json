@@ -1,74 +1,106 @@
 ---
 import Section from "../Section.astro"
-import HTML from "@/icons/html.astro"
-import CSS from "@/icons/css.astro"
 import JavaScript from "@/icons/javascript.astro"
 import TypeScript from "@/icons/type.astro"
 import React from "@/icons/react.astro"
-import Node from "@/icons/node.astro"
-import MySQL from "@/icons/sql.astro"
 import Git from "@/icons/git.astro"
 import GitHub from "@/icons/GitHub.astro"
-import Tailwind from "@/icons/tailwind.astro"
-import Next from "@/icons/next.astro"
 import Django from "@/icons/django.astro"
 import Python from "@/icons/python.astro"
-import Astrojs from "@/icons/astro.astro"
-import { getCV, getLang, t } from "@/i18n"
+import { SKILL_CATEGORIES, getCV, getLang, t } from "@/i18n"
+
 const lang = getLang(Astro.url)
+const ui = t(lang)
 const { skills } = getCV(lang)
 
-const SKILLS_ICONS: Record<string, any> = {
-  HTML,
-  CSS,
-  JavaScript,
-  TypeScript,
-  React,
-  Node,
-  MySQL,
-  Git,
-  GitHub,
-  Next,
-  Tailwind,
-  Django,
-  Python,
-  Astrojs
-}
+const SKILLS_ICONS: Record<string, any> = { JavaScript, TypeScript, React, Git, GitHub, Django, Python }
+
+const groups = SKILL_CATEGORIES.map((category) => ({
+  category,
+  items: skills.filter((skill) => skill.category === category),
+})).filter(({ items }) => items.length > 0)
 ---
 
-<Section title={t(lang).skills}>
-  <ul>
+<Section title={ui.skills}>
+  <dl>
     {
-      skills.map(({ name }) => {
-        const iconName = name === "Astro" ? "Astrojs" : name
-        const Icon = SKILLS_ICONS[iconName]
-
-        return (
-          <li>
-            {Icon && <Icon />} <span>{name}</span>
-          </li>
-        )
-      })
+      groups.map(({ category, items }) => (
+        <div class="group">
+          <dt>{ui.skillCategories[category]}</dt>
+          <dd>
+            <ul>
+              {items.map(({ name }) => {
+                const Icon = SKILLS_ICONS[name]
+                return (
+                  <li>
+                    {Icon && <Icon />} <span>{name}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </dd>
+        </div>
+      ))
     }
-  </ul>
+  </dl>
 </Section>
 
 <style>
+  dl {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+  }
+
+  .group {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  dt {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 0;
+  }
+
   ul {
-    display: inline-flex;
-    gap: 8px;
+    display: flex;
+    gap: 6px;
     flex-wrap: wrap;
   }
 
   li {
     align-items: center;
-    background: #eee;
-    border-radius: 6px;
-    color: black;
+    background: var(--chip);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--fg);
     display: flex;
     font-size: 0.8rem;
     font-weight: 500;
-    gap: 4px;
-    padding: 0.2rem 0.6rem;
+    gap: 5px;
+    padding: 0.25rem 0.65rem;
+    transition: border-color 0.2s ease;
+  }
+
+  li:hover {
+    border-color: var(--border-strong);
+  }
+
+  @media (width <= 600px) {
+    .group {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
   }
 </style>

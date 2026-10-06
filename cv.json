@@ -26,6 +26,24 @@
         "username": "gastonmardones",
         "url": "https://github.com/gastonmardones"
       }
+    ],
+    "metrics": [
+      {
+        "value": "1.000+",
+        "label": "namespaces en OpenShift"
+      },
+      {
+        "value": "~700",
+        "label": "repositorios auditados"
+      },
+      {
+        "value": "~4.500",
+        "label": "pods analizados"
+      },
+      {
+        "value": "6",
+        "label": "años construyendo software"
+      }
     ]
   },
   "work": [
@@ -37,14 +55,59 @@
       "endDate": null,
       "summary": "Operación y evolución de la plataforma OpenShift y del CI/CD (Tekton + ArgoCD) del Gobierno de la Ciudad.",
       "highlights": [
-        "Referente técnico en mejora de procesos junto a desarrollo, infraestructura y proveedores.",
-        "Desarrollé una auditoría automatizada de seguridad (scripts en Python con gitleaks y Semgrep, +1.100 reglas) sobre ~700 repositorios, con reportes consolidados por proyecto y archivo para los equipos de desarrollo.",
-        "Participé en la migración de los repositorios a una nueva plataforma GitLab, resolviendo el impacto en ~570 pipelines Tekton (DNS, credenciales SSH y conectividad a través de F5).",
-        "Diseñé junto a Red Hat el golden path de Red Hat Developer Hub (Backstage) y acompaño su implementación con los equipos clientes: aplicaciones piloto, gaps en templates y pipelines, y casos fuera del estándar.",
-        "Participé en la implementación de gestión de secretos GitOps con Sealed Secrets: pipeline Tekton que cifra los secretos y los versiona en el repositorio de manifiestos.",
-        "Resolví la saturación al 100% del WAL de Loki: identifiqué un checkpoint trabado como causa raíz y recuperé el servicio sin reiniciar pods, evitando pérdida de logs.",
-        "Detecté que los workers del cluster tenían el 99% de CPU reservado con un uso real de 7-43% y desarrollé un análisis de requests sobredimensionados sobre ~4.500 pods.",
-        "Desarrollé dashboards de observabilidad en Grafana y automatizaciones en Python con Jira Cloud, e impulso un catálogo centralizado de componentes como fuente única para la ticketera y la observabilidad."
+        {
+          "text": "Referente técnico en mejora de procesos junto a desarrollo, infraestructura y proveedores.",
+          "focus": [
+            "platform",
+            "devsecops"
+          ]
+        },
+        {
+          "text": "Desarrollé una auditoría automatizada de seguridad (scripts en Python con gitleaks y Semgrep, +1.100 reglas) sobre ~700 repositorios, con reportes consolidados por proyecto y archivo para los equipos de desarrollo.",
+          "focus": [
+            "devsecops",
+            "data"
+          ]
+        },
+        {
+          "text": "Participé en la migración de los repositorios a una nueva plataforma GitLab, resolviendo el impacto en ~570 pipelines Tekton (DNS, credenciales SSH y conectividad a través de F5).",
+          "focus": [
+            "platform"
+          ]
+        },
+        {
+          "text": "Diseñé junto a Red Hat el golden path de Red Hat Developer Hub (Backstage) y acompaño su implementación con los equipos clientes: aplicaciones piloto, gaps en templates y pipelines, y casos fuera del estándar.",
+          "focus": [
+            "platform"
+          ]
+        },
+        {
+          "text": "Participé en la implementación de gestión de secretos GitOps con Sealed Secrets: pipeline Tekton que cifra los secretos y los versiona en el repositorio de manifiestos.",
+          "focus": [
+            "devsecops",
+            "platform"
+          ]
+        },
+        {
+          "text": "Resolví la saturación al 100% del WAL de Loki: identifiqué un checkpoint trabado como causa raíz y recuperé el servicio sin reiniciar pods, evitando pérdida de logs.",
+          "focus": [
+            "platform"
+          ]
+        },
+        {
+          "text": "Detecté que los workers del cluster tenían el 99% de CPU reservado con un uso real de 7-43% y desarrollé un análisis de requests sobredimensionados sobre ~4.500 pods.",
+          "focus": [
+            "platform",
+            "data"
+          ]
+        },
+        {
+          "text": "Desarrollé dashboards de observabilidad en Grafana y automatizaciones en Python con Jira Cloud, e impulso un catálogo centralizado de componentes como fuente única para la ticketera y la observabilidad.",
+          "focus": [
+            "platform",
+            "data"
+          ]
+        }
       ]
     },
     {
@@ -55,10 +118,34 @@
       "endDate": "2025-12-31",
       "summary": "Plataforma web de gestión para escuelas (Python, Django, DRF, Celery, MySQL, React, HTMX, Docker, React Native).",
       "highlights": [
-        "Lideré el diseño, desarrollo y mantenimiento de una plataforma web de gestión para escuelas.",
-        "Coordiné un equipo de 3 desarrolladores: planificación de tareas, code review y mentoría técnica.",
-        "Relevé necesidades con docentes y administrativos y las traduje en funcionalidades concretas.",
-        "Migré de servidores dedicados a VPS reduciendo costos y mejoré la performance del código."
+        {
+          "text": "Lideré el diseño, desarrollo y mantenimiento de una plataforma web de gestión para escuelas.",
+          "focus": [
+            "platform",
+            "devsecops",
+            "data"
+          ]
+        },
+        {
+          "text": "Coordiné un equipo de 3 desarrolladores: planificación de tareas, code review y mentoría técnica.",
+          "focus": [
+            "platform",
+            "devsecops",
+            "data"
+          ]
+        },
+        {
+          "text": "Relevé necesidades con docentes y administrativos y las traduje en funcionalidades concretas.",
+          "focus": [
+            "data"
+          ]
+        },
+        {
+          "text": "Migré de servidores dedicados a VPS reduciendo costos y mejoré la performance del código.",
+          "focus": [
+            "platform"
+          ]
+        }
       ]
     }
   ],
@@ -118,192 +205,196 @@
     {
       "name": "OpenShift",
       "level": "",
-      "keywords": [
-        "Plataforma"
-      ]
+      "keywords": [],
+      "category": "platform"
     },
     {
       "name": "Kubernetes",
       "level": "",
-      "keywords": [
-        "Plataforma"
-      ]
+      "keywords": [],
+      "category": "platform"
     },
     {
       "name": "Docker",
       "level": "",
-      "keywords": [
-        "Plataforma"
-      ]
+      "keywords": [],
+      "category": "platform"
     },
     {
       "name": "Linux",
       "level": "",
-      "keywords": [
-        "Plataforma"
-      ]
+      "keywords": [],
+      "category": "platform"
     },
     {
       "name": "Varnish",
       "level": "",
-      "keywords": [
-        "Plataforma"
-      ]
+      "keywords": [],
+      "category": "platform"
     },
     {
       "name": "Tekton",
       "level": "",
-      "keywords": [
-        "CI/CD"
-      ]
+      "keywords": [],
+      "category": "cicd"
     },
     {
       "name": "ArgoCD",
       "level": "",
-      "keywords": [
-        "CI/CD"
-      ]
+      "keywords": [],
+      "category": "cicd"
     },
     {
       "name": "GitLab",
       "level": "",
-      "keywords": [
-        "CI/CD"
-      ]
+      "keywords": [],
+      "category": "cicd"
     },
     {
       "name": "Red Hat Developer Hub",
       "level": "",
-      "keywords": [
-        "CI/CD"
-      ]
+      "keywords": [],
+      "category": "cicd"
     },
     {
       "name": "Nexus",
       "level": "",
-      "keywords": [
-        "CI/CD"
-      ]
+      "keywords": [],
+      "category": "cicd"
     },
     {
       "name": "Git",
       "level": "",
-      "keywords": [
-        "CI/CD"
-      ]
+      "keywords": [],
+      "category": "cicd"
     },
     {
       "name": "Sealed Secrets",
       "level": "",
-      "keywords": [
-        "Seguridad"
-      ]
+      "keywords": [],
+      "category": "security"
     },
     {
       "name": "Keycloak / OIDC",
       "level": "",
-      "keywords": [
-        "Seguridad"
-      ]
+      "keywords": [],
+      "category": "security"
     },
     {
       "name": "gitleaks",
       "level": "",
-      "keywords": [
-        "Seguridad"
-      ]
+      "keywords": [],
+      "category": "security"
     },
     {
       "name": "Semgrep",
       "level": "",
-      "keywords": [
-        "Seguridad"
-      ]
+      "keywords": [],
+      "category": "security"
     },
     {
       "name": "SonarQube",
       "level": "",
-      "keywords": [
-        "Seguridad"
-      ]
+      "keywords": [],
+      "category": "security"
     },
     {
       "name": "Loki",
       "level": "",
-      "keywords": [
-        "Observabilidad"
-      ]
+      "keywords": [],
+      "category": "observability"
     },
     {
       "name": "Grafana",
       "level": "",
-      "keywords": [
-        "Observabilidad"
-      ]
+      "keywords": [],
+      "category": "observability"
     },
     {
       "name": "Elastic / Kibana",
       "level": "",
-      "keywords": [
-        "Observabilidad"
-      ]
+      "keywords": [],
+      "category": "observability"
     },
     {
       "name": "Python",
       "level": "",
-      "keywords": [
-        "Lenguajes"
-      ]
+      "keywords": [],
+      "category": "languages"
     },
     {
       "name": "Bash",
       "level": "",
-      "keywords": [
-        "Lenguajes"
-      ]
+      "keywords": [],
+      "category": "languages"
     },
     {
       "name": "Django",
       "level": "",
-      "keywords": [
-        "Lenguajes"
-      ]
+      "keywords": [],
+      "category": "languages"
     },
     {
       "name": "React",
       "level": "",
-      "keywords": [
-        "Lenguajes"
-      ]
+      "keywords": [],
+      "category": "languages"
     },
     {
       "name": "PostgreSQL",
       "level": "",
-      "keywords": [
-        "Datos"
-      ]
+      "keywords": [],
+      "category": "data"
     },
     {
       "name": "MariaDB",
       "level": "",
-      "keywords": [
-        "Datos"
-      ]
+      "keywords": [],
+      "category": "data"
     },
     {
       "name": "OracleDB",
       "level": "",
-      "keywords": [
-        "Datos"
-      ]
+      "keywords": [],
+      "category": "data"
     },
     {
       "name": "MongoDB",
       "level": "",
-      "keywords": [
-        "Datos"
-      ]
+      "keywords": [],
+      "category": "data"
     }
   ],
-  "projects": []
+  "projects": [],
+  "now": {
+    "updated": "2026-10-06",
+    "items": [
+      {
+        "label": "Trabajando en",
+        "text": "La adopción de Red Hat Developer Hub con los equipos de desarrollo y un catálogo centralizado de componentes para la ticketera y la observabilidad."
+      },
+      {
+        "label": "Aprendiendo",
+        "text": "Seguridad de la cadena de suministro de software: SAST, detección de secretos y hardening de pipelines."
+      },
+      {
+        "label": "Estudiando",
+        "text": "Licenciatura en Gestión y Análisis de Datos (UNSL)."
+      },
+      {
+        "label": "Próximo objetivo",
+        "text": "Certificaciones de Red Hat para OpenShift."
+      }
+    ]
+  },
+  "languages": [
+    {
+      "language": "Español",
+      "fluency": "Nativo"
+    },
+    {
+      "language": "Inglés",
+      "fluency": "B1 (lectura, escritura y comprensión auditiva; conversación en desarrollo)"
+    }
+  ]
 }

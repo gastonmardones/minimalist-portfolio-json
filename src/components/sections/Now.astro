@@ -1,0 +1,101 @@
+---
+import Section from "../Section.astro"
+
+import { getCV, getLang, t } from "@/i18n"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const { now } = getCV(lang)
+
+const updated = new Date(now.updated).toLocaleDateString(lang === "en" ? "en-US" : "es-AR", {
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+})
+---
+
+<Section title={ui.now} id="now">
+  <span slot="action" class="updated"><span class="dot" aria-hidden="true"></span>{ui.nowUpdated} {updated}</span>
+  <ul>
+    {
+      now.items.map(({ label, text }) => (
+        <li>
+          <h3>{label}</h3>
+          <p>{text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  li {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: var(--bg-soft);
+  }
+
+  h3 {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  li p {
+    color: var(--fg-2);
+    font-size: 0.88rem;
+  }
+
+  .updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent);
+    animation: pulse 2.4s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+    }
+    70% {
+      box-shadow: 0 0 0 7px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  @media (width <= 700px) {
+    ul {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media print {
+    section {
+      display: none;
+    }
+  }
+</style>

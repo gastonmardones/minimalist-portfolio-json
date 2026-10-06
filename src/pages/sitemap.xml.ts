@@ -1,14 +1,21 @@
 import type { APIRoute } from "astro"
 
-import { CASES } from "@/data/cases"
-import { LANGS, casePath, homePath } from "@/i18n"
+import { LANGS, casePath, casesPath, cvPath, homePath } from "@/i18n"
+import { caseKey, getCases } from "@/lib/cases"
 
-export const GET: APIRoute = ({ site }) => {
+export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL("https://gastonmardones.netlify.app")
-  const paths = LANGS.flatMap((lang) => [
-    homePath(lang),
-    ...CASES.map(({ slug }) => casePath(lang, slug)),
-  ])
+  const paths: string[] = []
+
+  for (const lang of LANGS) {
+    const cases = (await getCases(lang)).filter((entry) => !entry.data.draft)
+    paths.push(
+      homePath(lang),
+      cvPath(lang),
+      casesPath(lang),
+      ...cases.map((entry) => casePath(lang, caseKey(entry)))
+    )
+  }
 
   const urls = paths
     .map((path) => `  <url><loc>${new URL(path, base).href}</loc></url>`)

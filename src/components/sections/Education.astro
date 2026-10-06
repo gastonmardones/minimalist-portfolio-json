@@ -3,34 +3,26 @@ import Section from "../Section.astro"
 
 import { getCV, getLang, t } from "@/i18n"
 const lang = getLang(Astro.url)
+const ui = t(lang)
 const { education } = getCV(lang)
 ---
 
-<Section title={t(lang).education}>
+<Section title={ui.education}>
   <ul>
     {
       education.map(({ institution, startDate, endDate, area }) => {
-        const endYear =
-          endDate != null ? new Date(endDate).getUTCFullYear() : t(lang).present
+        const endYear = endDate != null ? new Date(endDate).getUTCFullYear() : ui.present
         const years =
-          startDate != null
-            ? `${new Date(startDate).getUTCFullYear()} - ${endYear}`
-            : `${endYear}`
+          startDate != null ? `${new Date(startDate).getUTCFullYear()} - ${endYear}` : `${endYear}`
 
         return (
           <li>
             <article>
               <header>
-                <div>
-                  <h3>{institution}</h3>
-                </div>
-
+                <h3>{institution}</h3>
                 <time>{years}</time>
               </header>
-
-              <footer>
-                <p>{area}</p>
-              </footer>
+              <p>{area}</p>
             </article>
           </li>
         )
@@ -43,30 +35,25 @@ const { education } = getCV(lang)
   ul {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-  }
-
-  article h3 {
-    font-weight: 500;
-    color: #111;
+    gap: 20px;
   }
 
   header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 4px;
+    gap: 16px;
+    margin-bottom: 2px;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
   }
 
   time {
-    color: #555;
-    font-size: 0.85rem;
-    min-width: 102px;
-  }
-
-  @media (width <= 700px) {
-    time {
-      text-align: right;
-    }
+    color: var(--muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
   }
 </style>

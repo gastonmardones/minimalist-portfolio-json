@@ -1,0 +1,133 @@
+---
+import { cvPath, getLang, homePath, otherLang, t, type Lang } from "@/i18n"
+
+interface Props {
+  // Ruta equivalente en el otro idioma (por defecto, su home)
+  alternate?: string
+}
+
+const lang: Lang = getLang(Astro.url)
+const ui = t(lang)
+const other = otherLang(lang)
+const { alternate = homePath(other) } = Astro.props
+const onHome = Astro.url.pathname === homePath(lang)
+---
+
+<nav class="topbar no-print">
+  <div class="inner">
+    <a class="brand" href={homePath(lang)} aria-current={onHome ? "page" : undefined}>
+      gm<span>.</span>
+    </a>
+    <div class="actions">
+      <a href={cvPath(lang)} class="pill">{ui.cv}</a>
+      <a href={alternate} hreflang={other} lang={other} class="pill" title={ui.switchLangTitle}>
+        {other.toUpperCase()}
+      </a>
+      <button type="button" class="pill icon" data-theme-toggle aria-label={ui.themeToggle} title={ui.themeToggle}>
+        <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const toggleTheme = () => {
+    const root = document.documentElement
+    const next = root.dataset.theme === "dark" ? "light" : "dark"
+    root.dataset.theme = next
+    try {
+      localStorage.setItem("theme", next)
+    } catch {
+      // sin almacenamiento: el tema dura solo esta visita
+    }
+  }
+
+  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    button.addEventListener("click", toggleTheme)
+  })
+
+  // Permite que la paleta de comandos cambie el tema
+  document.addEventListener("toggle-theme", toggleTheme)
+</script>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--fg);
+  }
+
+  .brand span {
+    color: var(--accent);
+  }
+
+  .actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--fg-2);
+    font: 500 0.78rem var(--font-mono);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .pill:hover {
+    background: var(--chip);
+    border-color: var(--border-strong);
+  }
+
+  .icon {
+    width: 30px;
+    padding: 0;
+  }
+
+  .moon {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .sun {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .moon {
+    display: block;
+  }
+
+  @media (width <= 780px) {
+    .inner {
+      padding: 10px 2rem;
+    }
+  }
+</style>

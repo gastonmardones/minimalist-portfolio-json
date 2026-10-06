@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro"
+import TopBar from "@/components/TopBar.astro"
 
 import About from "@/components/sections/About.astro"
 import Cases from "@/components/sections/Cases.astro"
@@ -7,21 +8,26 @@ import Certificates from "@/components/sections/Certificates.astro"
 import Education from "@/components/sections/Education.astro"
 import Experience from "@/components/sections/Experience.astro"
 import Hero from "@/components/sections/Hero.astro"
+import Now from "@/components/sections/Now.astro"
 import Projects from "@/components/sections/Projects.astro"
 import Skills from "@/components/sections/Skills.astro"
 import KeyboardManager from "@/components/KeyboardManager.astro"
 
-import { getCV, getLang, t } from "@/i18n"
+import { getCV, getLang, rssPath, t } from "@/i18n"
 
 const lang = getLang(Astro.url)
+const ui = t(lang)
 const { basics, projects, certificates } = getCV(lang)
 const { name, label } = basics
 ---
 
-<Layout title={t(lang).pageTitle(name, label)}>
+<Layout title={ui.pageTitle(name, label)}>
+  <link slot="head" rel="alternate" type="application/rss+xml" title={ui.casesTitle} href={rssPath(lang)} />
+  <TopBar />
   <main>
     <Hero />
     <About />
+    <Now />
     <Experience />
     <Cases />
     <Education />
@@ -35,14 +41,14 @@ const { name, label } = basics
 
 <style>
   main {
-    padding: 4rem;
+    padding: 2rem 4rem 5rem;
     margin: auto;
     width: 100%;
   }
 
   @media (width <= 700px) {
     main {
-      padding: 2rem;
+      padding: 1.5rem 2rem 5rem;
     }
   }
 </style>

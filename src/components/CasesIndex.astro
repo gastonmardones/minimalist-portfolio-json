@@ -1,0 +1,264 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import Section from "@/components/Section.astro"
+import TopBar from "@/components/TopBar.astro"
+import CaseCard from "@/components/CaseCard.astro"
+
+import { casesPath, getCV, getLang, homePath, rssPath, t } from "@/i18n"
+import { formatMonth, getCases, monthKey } from "@/lib/cases"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const { name } = getCV(lang).basics
+const cases = await getCases(lang)
+
+const tags = [...new Set(cases.flatMap((entry) => entry.data.tags))].sort((a, b) =>
+  a.localeCompare(b)
+)
+
+// Agrupa por mes, del más reciente al más viejo
+const months = [...new Set(cases.map((entry) => monthKey(entry.data.date)))].map((key) => {
+  const items = cases.filter((entry) => monthKey(entry.data.date) === key)
+  return { key, label: formatMonth(items[0].data.date, lang), items }
+})
+---
+
+<Layout
+  title={`${ui.casesTitle} · ${name}`}
+  description={ui.casesIntro}
+  alternates={{ es: casesPath("es"), en: casesPath("en") }}
+>
+  <link slot="head" rel="alternate" type="application/rss+xml" title={ui.casesTitle} href={rssPath(lang)} />
+  <TopBar alternate={casesPath(lang === "es" ? "en" : "es")} />
+  <main>
+    <Section reveal={false}>
+      <nav class="back"><a href={homePath(lang)}>{ui.backHome}</a></nav>
+      <h1>{ui.casesTitle}</h1>
+      <p class="intro">{ui.casesIntro}</p>
+
+      <div class="controls">
+        <input
+          type="search"
+          id="case-search"
+          placeholder={ui.casesSearch}
+          aria-label={ui.casesSearch}
+          autocomplete="off"
+        />
+        <div class="tags" role="group" aria-label="Tags">
+          <button type="button" class="tag active" data-tag="">{ui.casesAllTags}</button>
+          {tags.map((tag) => <button type="button" class="tag" data-tag={tag}>{tag}</button>)}
+        </div>
+        <div class="meta">
+          <span id="case-count" data-template-one={ui.casesCount(1)} data-template-many={ui.casesCount(2)}>
+            {ui.casesCount(cases.length)}
+          </span>
+          <a href={rssPath(lang)} class="rss">{ui.rss}</a>
+        </div>
+      </div>
+    </Section>
+
+    <Section reveal={false}>
+      {
+        months.map(({ key, label, items }) => (
+          <section class="month" data-month={key}>
+            <h2>{label}</h2>
+            <ul>
+              {items.map((entry) => (
+                <li
+                  data-case
+                  data-tags={entry.data.tags.join("|")}
+                  data-search={[entry.data.title, entry.data.summary, ...entry.data.tags, entry.body]
+                    .join(" ")
+                    .toLowerCase()}
+                >
+                  <CaseCard entry={entry} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+      <p id="case-empty" hidden>{ui.casesEmpty}</p>
+    </Section>
+  </main>
+</Layout>
+
+<script>
+  const search = document.getElementById("case-search") as HTMLInputElement | null
+  const tagButtons = [...document.querySelectorAll<HTMLButtonElement>("button[data-tag]")]
+  const items = [...document.querySelectorAll<HTMLElement>("[data-case]")]
+  const months = [...document.querySelectorAll<HTMLElement>("[data-month]")]
+  const count = document.getElementById("case-count")
+  const empty = document.getElementById("case-empty")
+
+  let activeTag = new URLSearchParams(location.search).get("tag") ?? ""
+
+  const normalize = (value: string) =>
+    value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+
+  const apply = () => {
+    const query = normalize(search?.value.trim() ?? "")
+    let visible = 0
+
+    items.forEach((item) => {
+      const tags = (item.dataset.tags ?? "").split("|")
+      const matchesTag = !activeTag || tags.includes(activeTag)
+      const matchesQuery = !query || normalize(item.dataset.search ?? "").includes(query)
+      const show = matchesTag && matchesQuery
+      item.hidden = !show
+      if (show) visible++
+    })
+
+    months.forEach((month) => {
+      month.hidden = !month.querySelector("[data-case]:not([hidden])")
+    })
+
+    tagButtons.forEach((button) => {
+      button.classList.toggle("active", (button.dataset.tag ?? "") === activeTag)
+    })
+
+    if (count) {
+      const template = visible === 1 ? count.dataset.templateOne : count.dataset.templateMany
+      count.textContent = (template ?? "").replace(/\d+/, String(visible))
+    }
+    if (empty) empty.hidden = visible > 0
+
+    const url = new URL(location.href)
+    if (activeTag) url.searchParams.set("tag", activeTag)
+    else url.searchParams.delete("tag")
+    history.replaceState(null, "", url)
+  }
+
+  tagButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeTag = button.dataset.tag ?? ""
+      apply()
+    })
+  })
+  search?.addEventListener("input", apply)
+  apply()
+</script>
+
+<style>
+  main {
+    padding: 2.5rem 4rem 4rem;
+    margin: auto;
+    width: 100%;
+  }
+
+  .back a {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 18px 0 8px;
+  }
+
+  .intro {
+    margin-bottom: 20px;
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-soft);
+    color: var(--fg);
+    font: 0.9rem var(--font-sans);
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--fg-2);
+    cursor: pointer;
+    font: 500 0.72rem var(--font-mono);
+    padding: 4px 10px;
+    transition: all 0.2s ease;
+  }
+
+  .tag:hover {
+    border-color: var(--border-strong);
+  }
+
+  .tag.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .rss {
+    color: var(--accent);
+  }
+
+  .month + .month {
+    margin-top: 32px;
+  }
+
+  .month h2 {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .month ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (width <= 700px) {
+    main {
+      padding: 2rem;
+    }
+
+    .month ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

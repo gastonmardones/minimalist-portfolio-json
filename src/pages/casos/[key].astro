@@ -1,0 +1,13 @@
+---
+import CaseDetail from "@/components/CaseDetail.astro"
+import { caseStaticPaths } from "@/lib/caseRoutes"
+import type { CaseEntry } from "@/lib/cases"
+
+export function getStaticPaths() {
+  return caseStaticPaths("es")
+}
+
+const { entry, hasTranslation } = Astro.props as { entry: CaseEntry; hasTranslation: boolean }
+---
+
+<CaseDetail entry={entry} hasTranslation={hasTranslation} />
