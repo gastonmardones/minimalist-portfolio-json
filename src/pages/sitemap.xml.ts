@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro"
 
-import { LANGS, casePath, casesPath, cvPath, homePath } from "@/i18n"
+import { LANGS, casePath, casesPath, cvPath, homePath, labPath, securityPath } from "@/i18n"
 import { caseKey, getCases } from "@/lib/cases"
 
 export const GET: APIRoute = async ({ site }) => {
@@ -13,6 +13,8 @@ export const GET: APIRoute = async ({ site }) => {
       homePath(lang),
       cvPath(lang),
       casesPath(lang),
+      labPath(lang),
+      securityPath(lang),
       ...cases.map((entry) => casePath(lang, caseKey(entry)))
     )
   }

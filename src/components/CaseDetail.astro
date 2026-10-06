@@ -2,8 +2,11 @@
 import Layout from "@/layouts/Layout.astro"
 import Section from "@/components/Section.astro"
 import TopBar from "@/components/TopBar.astro"
+import StatusBar from "@/components/StatusBar.astro"
 
-import { casePath, casesPath, getCV, otherLang, t } from "@/i18n"
+import { render } from "astro:content"
+import { casePath, casesPath, getCV, labPath, otherLang, t } from "@/i18n"
+import { getScenario } from "@/lab/scenarios"
 import { caseKey, caseLang, formatMonth, type CaseEntry } from "@/lib/cases"
 
 interface Props {
@@ -19,7 +22,8 @@ const other = otherLang(lang)
 const key = caseKey(entry)
 const { name } = getCV(lang).basics
 const { title, summary, date, tags, draft } = entry.data
-const { Content } = await entry.render()
+const { Content } = await render(entry)
+const scenario = getScenario(key)
 
 const alternates = {
   [lang]: casePath(lang, key),
@@ -47,6 +51,17 @@ const alternates = {
       </header>
     </Section>
 
+    {
+      scenario && (
+        <Section reveal={false}>
+          <a class="lab-cta" href={`${labPath(lang)}?play=${scenario.id}`}>
+            <span class="lab-cta-prompt">$ play {scenario.id}</span>
+            <span>{ui.labCta}</span>
+          </a>
+        </Section>
+      )
+    }
+
     <Section>
       <div class="prose">
         <Content />
@@ -57,6 +72,7 @@ const alternates = {
       <nav class="back"><a href={casesPath(lang)}>{ui.backCases}</a></nav>
     </Section>
   </main>
+  <StatusBar />
 </Layout>
 
 <style>
@@ -124,6 +140,30 @@ const alternates = {
 
   .tags a:hover {
     color: var(--accent);
+  }
+
+  .lab-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    border: 1px solid #30363d;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .lab-cta:hover {
+    transform: translateY(-2px);
+    border-color: #2dd4bf;
+  }
+
+  .lab-cta-prompt {
+    color: #2dd4bf;
+    font-size: 0.75rem;
   }
 
   .prose :global(h2) {

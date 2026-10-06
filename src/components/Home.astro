@@ -12,6 +12,9 @@ import Now from "@/components/sections/Now.astro"
 import Projects from "@/components/sections/Projects.astro"
 import Skills from "@/components/sections/Skills.astro"
 import KeyboardManager from "@/components/KeyboardManager.astro"
+import Terminal from "@/components/Terminal.astro"
+import StatusBar from "@/components/StatusBar.astro"
+import Section from "@/components/Section.astro"
 
 import { getCV, getLang, rssPath, t } from "@/i18n"
 
@@ -26,6 +29,9 @@ const { name, label } = basics
   <TopBar />
   <main>
     <Hero />
+    <Section id="terminal" reveal={false}>
+      <Terminal variant="home" />
+    </Section>
     <About />
     <Now />
     <Experience />
@@ -36,6 +42,7 @@ const { name, label } = basics
     <Skills />
   </main>
 
+  <StatusBar />
   <KeyboardManager />
 </Layout>
 

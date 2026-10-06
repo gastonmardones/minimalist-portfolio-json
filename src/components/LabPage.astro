@@ -1,0 +1,199 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import Section from "@/components/Section.astro"
+import TopBar from "@/components/TopBar.astro"
+import Terminal from "@/components/Terminal.astro"
+import StatusBar from "@/components/StatusBar.astro"
+
+import { getCV, getLang, homePath, labPath, otherLang, t } from "@/i18n"
+import { SCENARIOS } from "@/lab/scenarios"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const { name } = getCV(lang).basics
+---
+
+<Layout
+  title={`${ui.labTitle} · ${name}`}
+  description={ui.labIntro}
+  alternates={{ es: labPath("es"), en: labPath("en") }}
+>
+  <TopBar alternate={labPath(otherLang(lang))} />
+  <main>
+    <Section reveal={false}>
+      <nav class="back"><a href={homePath(lang)}>{ui.backHome}</a></nav>
+      <p class="eyebrow">$ ./incident-lab --interactive</p>
+      <h1>{ui.labTitle}</h1>
+      <p class="intro">{ui.labIntro}</p>
+    </Section>
+
+    <div class="terminal-wrap" id="lab-terminal">
+      <Terminal variant="lab" />
+    </div>
+
+    <Section reveal={false}>
+      <ul class="scenarios">
+        {
+          SCENARIOS.map((scenario, index) => (
+            <li>
+              <button type="button" class="scenario" data-play={scenario.id}>
+                <span class="num">0{index + 1}</span>
+                <span class="body">
+                  <span class="name">{scenario.title[lang]}</span>
+                  <span class="meta">
+                    {ui.labDifficulty}: {"★".repeat(scenario.difficulty)}
+                    {"☆".repeat(3 - scenario.difficulty)}
+                    <span class="solved" data-solved-badge={scenario.id} hidden>
+                      ✓ {ui.labSolved}
+                    </span>
+                  </span>
+                </span>
+                <span class="play">{ui.labPlay} ▸</span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </Section>
+  </main>
+  <StatusBar />
+</Layout>
+
+<script>
+  const terminal = document.querySelector<HTMLElement>("[data-terminal]")
+
+  const refreshSolved = () => {
+    let solved: string[] = []
+    try {
+      solved = JSON.parse(localStorage.getItem("lab-solved") ?? "[]")
+    } catch {
+      solved = []
+    }
+    document.querySelectorAll<HTMLElement>("[data-solved-badge]").forEach((badge) => {
+      badge.hidden = !solved.includes(badge.dataset.solvedBadge ?? "")
+    })
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-play]").forEach((button) => {
+    button.addEventListener("click", () => {
+      terminal?.dispatchEvent(new CustomEvent("terminal:run", { detail: `play ${button.dataset.play}` }))
+      document.getElementById("lab-terminal")?.scrollIntoView({ behavior: "smooth", block: "center" })
+      terminal?.querySelector("input")?.focus({ preventScroll: true })
+    })
+  })
+
+  document.addEventListener("lab:solved", refreshSolved)
+  refreshSolved()
+</script>
+
+<style>
+  main {
+    padding: 2.5rem 4rem 5rem;
+    margin: auto;
+    width: 100%;
+  }
+
+  .back a {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+
+  .eyebrow {
+    margin-top: 22px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin: 4px 0 10px;
+  }
+
+  .intro {
+    font-size: 1rem;
+    max-width: 60ch;
+  }
+
+  .terminal-wrap {
+    max-width: 880px;
+    margin: 0 auto 40px;
+  }
+
+  .scenarios {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .scenario {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-soft);
+    color: var(--fg);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .scenario:hover {
+    border-color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .name {
+    font-weight: 600;
+  }
+
+  .meta {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .solved {
+    margin-left: 10px;
+    color: #16a34a;
+    font-weight: 700;
+  }
+
+  .play {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  @media (width <= 700px) {
+    main {
+      padding: 2rem 1rem 5rem;
+    }
+  }
+</style>

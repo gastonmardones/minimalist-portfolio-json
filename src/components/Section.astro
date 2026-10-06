@@ -12,7 +12,10 @@ const { title, id, reveal = true } = Astro.props
   {
     title && (
       <header>
-        <h2>{title}</h2>
+        <div>
+          {id && <span class="path" aria-hidden="true">~/{id}</span>}
+          <h2>{title}</h2>
+        </div>
         <slot name="action" />
       </header>
     )
@@ -33,6 +36,21 @@ const { title, id, reveal = true } = Astro.props
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 16px;
+  }
+
+  .path {
+    display: block;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+    opacity: 0.85;
+  }
+
+  .path::before {
+    content: "$ cd ";
+    color: var(--muted);
   }
 
   h2 {

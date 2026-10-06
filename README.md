@@ -40,6 +40,7 @@ Basado en el diseño de <a href="https://github.com/BartoszJarocki/cv">Bartosz J
 
 <div align="center">
 
+[![DevSecOps](https://github.com/gastonmardones/minimalist-portfolio-json/actions/workflows/devsecops.yml/badge.svg)](https://github.com/gastonmardones/minimalist-portfolio-json/actions/workflows/devsecops.yml)
 ![Astro Badge](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=fff&style=flat)
 ![GitHub stars](https://img.shields.io/github/stars/midudev/minimalist-portfolio-json)
 ![GitHub issues](https://img.shields.io/github/issues/midudev/minimalist-portfolio-json)
@@ -108,6 +109,30 @@ src/content/cases/en/<clave>.md   →  /en/cases/<clave>/
 - `/cv/` y `/en/cv/` arman el CV desde `cv.json` / `cv_english.json`.
 - Enfoques por URL: `/cv/?enfoque=devsecops|plataforma|datos` y `/en/cv/?focus=devsecops|platform|data`. Cada bullet de experiencia declara sus enfoques en el campo `focus`.
 - `npm run cv:pdf` reconstruye el sitio y regenera `public/cv-gaston-mardones.pdf` y `public/cv-gaston-mardones-en.pdf` con Chrome headless (variable `CHROME` opcional).
+
+## 🧪 Incident Lab
+
+`/lab/` y `/en/lab/` (y la terminal de la home) son una terminal interactiva donde se resuelven incidentes reales.
+
+- Los escenarios están en `src/lab/scenarios.ts`: brief, comandos (regex → salida simulada), pistas, opciones y explicación. El `id` es la misma clave que el caso en `src/content/cases`, así el caso enlaza al escenario y viceversa.
+- El motor de la terminal está en `src/lab/terminal.ts` y los textos en `src/lab/strings.ts`.
+- `/lab/?play=<id>` abre un escenario directo. El progreso se guarda en `localStorage`.
+
+## 🛡️ Pipeline DevSecOps
+
+`.github/workflows/devsecops.yml` corre en cada push a `main`, en los PR, todos los lunes y a mano:
+
+| Control | Herramienta |
+| :-- | :-- |
+| Secretos en código e historial | gitleaks (`.gitleaksignore` para falsos positivos justificados) |
+| SAST | Semgrep CE (`p/default`) |
+| Dependencias | `npm audit` |
+| SBOM | CycloneDX → `public/sbom.cdx.json` |
+| Headers HTTP | `curl -I` al sitio publicado |
+| Calidad web | Lighthouse |
+
+`scripts/security-report.mjs` consolida todo en `src/data/security-report.json`, que se muestra en `/seguridad/`. En `main` el workflow commitea el reporte (y Netlify lo publica); el último paso falla el job si algún control da `fail`.
+Las actions están fijadas por SHA y `.npmrc` fija el registry público y `min-release-age=7`.
 
 ## 🧞 Comandos
 

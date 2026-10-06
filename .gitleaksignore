@@ -1,0 +1,4 @@
+# middlewareSecret autogenerado por @astrojs/netlify en un build de 2024 que se
+# commiteó por error (.netlify/) y se eliminó en el commit siguiente. Era un UUID
+# por build, sin acceso a servicios externos; el adaptador ya no se usa.
+4454390540a26994528a7d7107dbf0aca8e2d2b1:.netlify/functions-internal/ssr/entry.mjs:generic-api-key:19

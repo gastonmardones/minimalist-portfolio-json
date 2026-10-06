@@ -9,7 +9,7 @@ const { work } = getCV(lang)
 const year = (date: string) => new Date(date).getUTCFullYear()
 ---
 
-<Section title={ui.experience}>
+<Section title={ui.experience} id="experience">
   <ol class="timeline">
     {
       work.map(({ name, startDate, endDate, position, summary, highlights, url }) => {

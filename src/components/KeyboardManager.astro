@@ -2,7 +2,7 @@
 import 'hotkeypad/reset.css'
 import 'hotkeypad/index.css'
 import { type SocialIcon } from "@/types"
-import { casesPath, cvPath, getCV, getLang, homePath, t } from "@/i18n"
+import { casesPath, cvPath, getCV, getLang, homePath, labPath, t } from "@/i18n"
 
 const lang = getLang(Astro.url)
 const ui = t(lang)
@@ -96,6 +96,7 @@ const profilesInfo = profiles.map(({ network, url }) => {
   data-cases-url={casesPath(lang)}
   data-cv-title={ui.cv}
   data-cv-url={cvPath(lang)}
+  data-lab-url={labPath(lang)}
   data-theme-title={ui.theme}
 >
 </div>
@@ -148,7 +149,7 @@ const profilesInfo = profiles.map(({ network, url }) => {
       id: "lang",
       title: hotkeypad.instance.dataset.langTitle ?? "Language",
       icon: `<svg style="margin-right: 8px" width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" /></svg>`,
-      hotkey: "ctrl+L",
+      hotkey: "ctrl+E",
       section: hotkeypad.instance.dataset.actions ?? "Actions",
       handler: () => {
         window.location.href = hotkeypad.instance.dataset.langUrl ?? "/"
@@ -158,7 +159,7 @@ const profilesInfo = profiles.map(({ network, url }) => {
       id: "theme",
       title: hotkeypad.instance.dataset.themeTitle ?? "Theme",
       icon: `<svg style="margin-right: 8px" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
-      hotkey: "ctrl+T",
+      hotkey: "ctrl+M",
       section: hotkeypad.instance.dataset.actions ?? "Actions",
       handler: () => {
         document.dispatchEvent(new Event("toggle-theme"))
@@ -172,6 +173,16 @@ const profilesInfo = profiles.map(({ network, url }) => {
       section: hotkeypad.instance.dataset.navigation ?? "Navigation",
       handler: () => {
         window.location.href = hotkeypad.instance.dataset.casesUrl ?? "/"
+      }
+    },
+    {
+      id: "lab",
+      title: "Incident Lab",
+      icon: `<svg style="margin-right: 8px" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 17 6-6-6-6M12 19h8"></path></svg>`,
+      hotkey: "ctrl+I",
+      section: hotkeypad.instance.dataset.navigation ?? "Navigation",
+      handler: () => {
+        window.location.href = hotkeypad.instance.dataset.labUrl ?? "/"
       }
     },
     {

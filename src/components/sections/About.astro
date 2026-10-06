@@ -6,7 +6,7 @@ const lang = getLang(Astro.url)
 const { summary } = getCV(lang).basics
 ---
 
-<Section title={t(lang).about}>
+<Section title={t(lang).about} id="about">
   <p class="summary">
     {summary}
   </p>

@@ -1,0 +1,246 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import Section from "@/components/Section.astro"
+import TopBar from "@/components/TopBar.astro"
+import StatusBar from "@/components/StatusBar.astro"
+
+import { getCV, getLang, homePath, otherLang, securityPath, t } from "@/i18n"
+import report from "@/data/security-report.json"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const { name } = getCV(lang).basics
+
+type CheckKey = keyof typeof ui.securityChecks
+type Status = keyof typeof ui.securityStatus
+const ORDER: CheckKey[] = ["secrets", "sast", "deps", "sbom", "headers", "lighthouse"]
+
+const checks = report.checks as Record<CheckKey, { status: Status; tool: string; summary: Record<string, unknown>; file?: string }>
+
+const scanned = report.generatedAt
+  ? new Date(report.generatedAt).toLocaleString(lang === "en" ? "en-US" : "es-AR", {
+      dateStyle: "long",
+      timeStyle: "short",
+      timeZone: "America/Argentina/Buenos_Aires",
+    })
+  : null
+
+// Texto corto y legible para cada resumen
+const describe = (key: CheckKey): string[] => {
+  const s = checks[key].summary as Record<string, any>
+  if (checks[key].status === "pending") return []
+  switch (key) {
+    case "secrets":
+      return [`${s.findings ?? 0} ${lang === "en" ? "findings" : "hallazgos"}`]
+    case "sast":
+      return [
+        `ERROR ${s.error ?? 0}`,
+        `WARNING ${s.warning ?? 0}`,
+        `INFO ${s.info ?? 0}`,
+        `${s.files ?? 0} ${lang === "en" ? "files" : "archivos"}`,
+      ]
+    case "deps":
+      return [`critical ${s.critical}`, `high ${s.high}`, `moderate ${s.moderate}`, `low ${s.low}`]
+    case "sbom":
+      return [`${s.components} ${lang === "en" ? "components" : "componentes"}`, s.format]
+    case "headers":
+      return [
+        ...(s.present ?? []).map((h: string) => `✓ ${h}`),
+        ...(s.missing ?? []).map((h: string) => `✗ ${h}`),
+      ]
+    case "lighthouse":
+      return [
+        `Performance ${s.performance}`,
+        `Accessibility ${s.accessibility}`,
+        `Best practices ${s.bestPractices}`,
+        `SEO ${s.seo}`,
+      ]
+  }
+}
+---
+
+<Layout
+  title={`${ui.securityTitle} · ${name}`}
+  description={ui.securityIntro}
+  alternates={{ es: securityPath("es"), en: securityPath("en") }}
+>
+  <TopBar alternate={securityPath(otherLang(lang))} />
+  <main>
+    <Section reveal={false}>
+      <nav class="back"><a href={homePath(lang)}>{ui.backHome}</a></nav>
+      <p class="eyebrow">$ ./devsecops-pipeline --report</p>
+      <h1>{ui.securityTitle}</h1>
+      <p class="intro">{ui.securityIntro}</p>
+      <p class="meta">
+        {scanned ? `${ui.securityLastScan}: ${scanned}` : ui.securityPending}
+        {report.commit && <> · {ui.securityCommit} <code>{report.commit}</code></>}
+        {
+          report.runUrl && (
+            <>
+              {" · "}
+              <a href={report.runUrl} target="_blank" rel="noopener noreferrer">
+                {ui.securityRun} ↗
+              </a>
+            </>
+          )
+        }
+      </p>
+    </Section>
+
+    <Section reveal={false}>
+      <ul class="checks">
+        {
+          ORDER.map((key) => {
+            const check = checks[key]
+            return (
+              <li class:list={["check", check.status]}>
+                <header>
+                  <span class="badge">{ui.securityStatus[check.status]}</span>
+                  <h2>{ui.securityChecks[key]}</h2>
+                </header>
+                <p class="tool">
+                  {ui.securityTools}: <code>{check.tool}</code>
+                </p>
+                <ul class="facts">
+                  {describe(key).map((fact) => (
+                    <li>{fact}</li>
+                  ))}
+                </ul>
+                {check.file && (
+                  <a class="download" href={check.file} download>
+                    {ui.securityDownloadSbom} ↓
+                  </a>
+                )}
+              </li>
+            )
+          })
+        }
+      </ul>
+    </Section>
+  </main>
+  <StatusBar />
+</Layout>
+
+<style>
+  main {
+    padding: 2.5rem 4rem 4rem;
+    margin: auto;
+    width: 100%;
+  }
+
+  .back a {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .back a:hover,
+  .meta a:hover {
+    color: var(--accent);
+  }
+
+  .eyebrow {
+    margin-top: 22px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin: 4px 0 10px;
+  }
+
+  .meta {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .meta a {
+    text-decoration: underline;
+  }
+
+  .checks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .check {
+    --status: var(--muted);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--status);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: var(--bg-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .check.pass {
+    --status: #16a34a;
+  }
+
+  .check.warn {
+    --status: #d97706;
+  }
+
+  .check.fail {
+    --status: #dc2626;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 0.98rem;
+    font-weight: 600;
+  }
+
+  .badge {
+    background: var(--status);
+    color: #fff;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    text-transform: uppercase;
+  }
+
+  .tool {
+    font-size: 0.78rem;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--fg-2);
+  }
+
+  .download {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  @media (width <= 700px) {
+    main {
+      padding: 2rem;
+    }
+
+    .checks {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

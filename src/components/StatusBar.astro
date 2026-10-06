@@ -1,0 +1,129 @@
+---
+import { getCV, getLang, securityPath, t } from "@/i18n"
+import report from "@/data/security-report.json"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const { work } = getCV(lang)
+
+const env = (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env
+const build = (env?.COMMIT_REF ?? "local").slice(0, 7)
+const startYear = Math.min(...work.map((job) => new Date(job.startDate).getUTCFullYear()))
+
+const statuses = Object.values(report.checks).map((check) => check.status)
+const overall = statuses.includes("fail") ? "fail" : statuses.includes("warn") ? "warn" : statuses.every((s) => s === "pass") ? "pass" : "pending"
+---
+
+<footer class="statusbar no-print" data-start-year={startYear}>
+  <div class="inner">
+    <span class="item ok"><span class="dot" aria-hidden="true"></span>{ui.statusOperational}</span>
+    <span class="item">{ui.statusUptime} <span data-uptime>—</span></span>
+    <span class="item">{ui.statusBuild} <code>{build}</code></span>
+    <a class:list={["item", "sec", overall]} href={securityPath(lang)}>
+      {ui.security}: {ui.securityStatus[overall as keyof typeof ui.securityStatus]}
+    </a>
+  </div>
+</footer>
+
+<script>
+  // Uptime vivo desde el inicio de la carrera (años, meses, días, hh:mm:ss)
+  const bar = document.querySelector<HTMLElement>(".statusbar")
+  const target = bar?.querySelector<HTMLElement>("[data-uptime]")
+  const start = new Date(Date.UTC(Number(bar?.dataset.startYear ?? 2020), 0, 1))
+  const pad = (n: number) => String(n).padStart(2, "0")
+
+  const tick = () => {
+    if (!target) return
+    const now = new Date()
+    let years = now.getUTCFullYear() - start.getUTCFullYear()
+    let months = now.getUTCMonth() - start.getUTCMonth()
+    if (months < 0) {
+      years--
+      months += 12
+    }
+    const days = now.getUTCDate() - 1
+    target.textContent = `${years}y ${months}m ${days}d ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+  }
+
+  tick()
+  setInterval(tick, 1000)
+</script>
+
+<style>
+  .statusbar {
+    border-top: 1px solid var(--border);
+    background: var(--bg-soft);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  .inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    align-items: center;
+  }
+
+  .item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ok {
+    color: var(--fg-2);
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 3px color-mix(in srgb, #22c55e 25%, transparent);
+  }
+
+  code {
+    color: var(--fg-2);
+  }
+
+  .sec {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .sec.pass {
+    color: #16a34a;
+    border-color: color-mix(in srgb, #16a34a 40%, transparent);
+  }
+
+  .sec.warn {
+    color: #b45309;
+    border-color: color-mix(in srgb, #b45309 40%, transparent);
+  }
+
+  .sec.fail {
+    color: #dc2626;
+    border-color: color-mix(in srgb, #dc2626 40%, transparent);
+  }
+
+  .sec:hover {
+    background: var(--chip);
+  }
+
+  @media (width <= 780px) {
+    .inner {
+      padding: 12px 2rem;
+    }
+
+    .sec {
+      margin-left: 0;
+    }
+  }
+</style>

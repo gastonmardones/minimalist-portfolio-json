@@ -1,0 +1,105 @@
+# Pipeline DevSecOps del sitio: escanea secretos, código, dependencias,
+# genera el SBOM, revisa headers y calidad web, y publica el resultado en /seguridad.
+name: DevSecOps
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "src/data/security-report.json"
+      - "public/sbom.cdx.json"
+  pull_request:
+  schedule:
+    - cron: "0 12 * * 1" # lunes 09:00 (Argentina)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: devsecops-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    name: Escaneo de seguridad y calidad
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # para publicar el reporte en main
+    env:
+      GITLEAKS_VERSION: "8.21.2"
+      SITE_URL: https://gastonmardones.netlify.app
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0 # gitleaks revisa todo el historial
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build (astro check + astro build)
+        run: npm run build
+
+      - name: Preparar carpeta de reportes
+        run: mkdir -p reports
+
+      - name: Secretos en código e historial (gitleaks)
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | tar -xz gitleaks
+          ./gitleaks git --no-banner --report-format json --report-path reports/gitleaks.json --exit-code 0 .
+
+      - name: Análisis estático (Semgrep CE)
+        run: >
+          pipx run semgrep scan --config p/default --metrics=off --quiet
+          --json --output reports/semgrep.json
+          --exclude dist --exclude node_modules --exclude .astro .
+
+      - name: Dependencias vulnerables (npm audit)
+        run: npm audit --json > reports/npm-audit.json || true
+
+      - name: SBOM (CycloneDX)
+        run: npx --yes @cyclonedx/cyclonedx-npm@4 --omit dev --output-format JSON --output-file reports/sbom.cdx.json
+
+      - name: Headers de seguridad del sitio publicado
+        run: curl -sSI "$SITE_URL/" > reports/headers.txt
+
+      - name: Calidad web (Lighthouse)
+        run: |
+          npx --yes http-server@14 dist -p 8080 -s &
+          sleep 3
+          npx --yes lighthouse@12 http://localhost:8080/ --quiet \
+            --output=json --output-path=reports/lighthouse.json \
+            --chrome-flags="--headless=new --no-sandbox"
+
+      - name: Consolidar reporte
+        run: node scripts/security-report.mjs reports
+
+      - name: Guardar reportes como artefacto
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: devsecops-reports
+          path: reports/
+          retention-days: 30
+
+      # Los push hechos con GITHUB_TOKEN no disparan otro workflow, así que no hay loop.
+      # No se usa [skip ci]: Netlify también lo respeta y no publicaría el reporte.
+      - name: Publicar reporte en el sitio
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/security-report.json public/sbom.cdx.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en el reporte"
+            exit 0
+          fi
+          git commit -m "chore(security): actualizar reporte DevSecOps"
+          git push
+
+      - name: Gate (falla si algún control da "fail")
+        run: node scripts/security-report.mjs reports --gate

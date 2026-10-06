@@ -21,7 +21,7 @@ const groups = SKILL_CATEGORIES.map((category) => ({
 })).filter(({ items }) => items.length > 0)
 ---
 
-<Section title={ui.skills}>
+<Section title={ui.skills} id="skills">
   <dl>
     {
       groups.map(({ category, items }) => (

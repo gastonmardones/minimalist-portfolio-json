@@ -7,7 +7,7 @@ const ui = t(lang)
 const { education } = getCV(lang)
 ---
 
-<Section title={ui.education}>
+<Section title={ui.education} id="education">
   <ul>
     {
       education.map(({ institution, startDate, endDate, area }) => {

@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-10-06T15:35:20.599Z",
+  "commit": null,
+  "runUrl": null,
+  "checks": {
+    "secrets": {
+      "status": "pass",
+      "tool": "gitleaks",
+      "summary": {
+        "findings": 0
+      }
+    },
+    "sast": {
+      "status": "pass",
+      "tool": "Semgrep CE",
+      "summary": {
+        "error": 0,
+        "warning": 0,
+        "info": 0,
+        "files": 102
+      }
+    },
+    "deps": {
+      "status": "pass",
+      "tool": "npm audit",
+      "summary": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      }
+    },
+    "sbom": {
+      "status": "pass",
+      "tool": "CycloneDX",
+      "summary": {
+        "components": 286,
+        "format": "CycloneDX 1.6"
+      },
+      "file": "/sbom.cdx.json"
+    },
+    "headers": {
+      "status": "pass",
+      "tool": "curl",
+      "summary": {
+        "present": [
+          "strict-transport-security",
+          "content-security-policy",
+          "x-frame-options",
+          "x-content-type-options",
+          "referrer-policy",
+          "permissions-policy"
+        ],
+        "missing": []
+      }
+    },
+    "lighthouse": {
+      "status": "pass",
+      "tool": "Lighthouse",
+      "summary": {
+        "performance": 99,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      }
+    }
+  }
+}

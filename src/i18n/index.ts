@@ -20,6 +20,8 @@ export const casesPath = (lang: Lang) => (lang === "en" ? "/en/cases/" : "/casos
 export const casePath = (lang: Lang, key: string) => `${casesPath(lang)}${key}/`
 export const rssPath = (lang: Lang) => `${casesPath(lang)}rss.xml`
 export const cvPath = (lang: Lang) => (lang === "en" ? "/en/cv/" : "/cv/")
+export const labPath = (lang: Lang) => (lang === "en" ? "/en/lab/" : "/lab/")
+export const securityPath = (lang: Lang) => (lang === "en" ? "/en/security/" : "/seguridad/")
 export const cvPdfPath = (lang: Lang) =>
   lang === "en" ? "/cv-gaston-mardones-en.pdf" : "/cv-gaston-mardones.pdf"
 
@@ -48,6 +50,38 @@ export const FOCUS_CATEGORIES: Record<Focus, SkillCategory[]> = {
 export const UI = {
   es: {
     pageTitle: (name: string, label: string) => `Portafolio de ${name} - ${label}`,
+    lab: "Lab",
+    labTitle: "Incident Lab",
+    labIntro:
+      "Incidentes reales de producción convertidos en desafíos. Investigá con comandos como en un cluster de verdad, juntá pistas y encontrá la causa raíz.",
+    labPlay: "Jugar",
+    labSolved: "Resuelto",
+    labDifficulty: "Dificultad",
+    labCta: "¿Te animás a resolverlo? Probalo en el Incident Lab →",
+    terminalTitle: "Terminal interactiva",
+    terminalHint: "Escribí help · Tab autocompleta · ↑↓ historial",
+    security: "Seguridad",
+    securityTitle: "Reporte DevSecOps del sitio",
+    securityIntro:
+      "Este sitio pasa por el mismo tipo de controles que aplico en el trabajo. Un pipeline de GitHub Actions corre en cada cambio y cada semana, y publica acá sus resultados.",
+    securityLastScan: "Último escaneo",
+    securityCommit: "Commit",
+    securityRun: "Ver ejecución del pipeline",
+    securityPending: "Pendiente de la primera ejecución del pipeline",
+    securityChecks: {
+      secrets: "Secretos en el código e historial",
+      sast: "Análisis estático (SAST)",
+      deps: "Dependencias vulnerables",
+      sbom: "SBOM (inventario de componentes)",
+      headers: "Headers de seguridad HTTP",
+      lighthouse: "Calidad web (Lighthouse)",
+    },
+    securityTools: "Herramienta",
+    securityDownloadSbom: "Descargar SBOM (CycloneDX)",
+    securityStatus: { pass: "OK", warn: "Revisar", fail: "Falla", pending: "Pendiente" },
+    statusOperational: "Todos los sistemas operativos",
+    statusUptime: "uptime",
+    statusBuild: "build",
     about: "Sobre mí",
     now: "Ahora",
     nowUpdated: "Actualizado",
@@ -115,6 +149,38 @@ export const UI = {
   },
   en: {
     pageTitle: (name: string, label: string) => `${name} - ${label}`,
+    lab: "Lab",
+    labTitle: "Incident Lab",
+    labIntro:
+      "Real production incidents turned into challenges. Investigate with commands like on a real cluster, collect clues and find the root cause.",
+    labPlay: "Play",
+    labSolved: "Solved",
+    labDifficulty: "Difficulty",
+    labCta: "Think you can solve it? Try it in the Incident Lab →",
+    terminalTitle: "Interactive terminal",
+    terminalHint: "Type help · Tab completes · ↑↓ history",
+    security: "Security",
+    securityTitle: "Site DevSecOps report",
+    securityIntro:
+      "This site goes through the same kind of controls I apply at work. A GitHub Actions pipeline runs on every change and weekly, and publishes its results here.",
+    securityLastScan: "Last scan",
+    securityCommit: "Commit",
+    securityRun: "View pipeline run",
+    securityPending: "Waiting for the first pipeline run",
+    securityChecks: {
+      secrets: "Secrets in code and history",
+      sast: "Static analysis (SAST)",
+      deps: "Vulnerable dependencies",
+      sbom: "SBOM (component inventory)",
+      headers: "HTTP security headers",
+      lighthouse: "Web quality (Lighthouse)",
+    },
+    securityTools: "Tool",
+    securityDownloadSbom: "Download SBOM (CycloneDX)",
+    securityStatus: { pass: "OK", warn: "Review", fail: "Fail", pending: "Pending" },
+    statusOperational: "All systems operational",
+    statusUptime: "uptime",
+    statusBuild: "build",
     about: "About",
     now: "Now",
     nowUpdated: "Updated",

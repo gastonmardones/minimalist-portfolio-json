@@ -8,8 +8,8 @@ export type CaseEntry = CollectionEntry<"cases">
 const env = (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env
 const showDrafts = env?.CONTEXT !== "production"
 
-export const caseKey = (entry: CaseEntry) => entry.slug.split("/").slice(1).join("/")
-export const caseLang = (entry: CaseEntry) => entry.slug.split("/")[0] as Lang
+export const caseKey = (entry: CaseEntry) => entry.id.split("/").slice(1).join("/")
+export const caseLang = (entry: CaseEntry) => entry.id.split("/")[0] as Lang
 
 export async function getCases(lang: Lang) {
   const entries = await getCollection(
