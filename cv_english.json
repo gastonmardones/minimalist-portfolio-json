@@ -6,7 +6,7 @@
     "email": "gastonmardones22@gmail.com",
     "phone": "+54 294 4321600",
     "cv_url": "/cv-gaston-mardones-en.pdf",
-    "url": "https://gastonmardones.netlify.app",
+    "url": "https://gastonmardones.dev",
     "summary": "DevOps Engineer at the Buenos Aires City Government, operating an OpenShift cluster with 1,000+ namespaces and declarative CI/CD, specialized in troubleshooting platform, observability and pipeline incidents. I am steering my career toward DevSecOps: static analysis and secret detection at scale, software supply chain security and platform hardening. Background in full-stack development; starting a Bachelor's in Data Management and Analytics in 2027.",
     "location": {
       "address": "Villa Crespo",

@@ -6,7 +6,7 @@
     "email": "gastonmardones22@gmail.com",
     "phone": "+54 294 4321600",
     "cv_url": "/cv-gaston-mardones.pdf",
-    "url": "https://gastonmardones.netlify.app",
+    "url": "https://gastonmardones.dev",
     "summary": "DevOps Engineer en GCBA: opero un cluster OpenShift de más de 1.000 namespaces con CI/CD declarativo y me especializo en el diagnóstico de incidentes de plataforma, observabilidad y pipelines. Hoy estoy orientando mi carrera hacia DevSecOps: análisis estático y detección de secretos a escala, seguridad de la cadena de suministro y hardening de plataforma. Vengo del desarrollo full stack y en 2027 empiezo la Licenciatura en Gestión y Análisis de Datos.",
     "location": {
       "address": "Villa Crespo",

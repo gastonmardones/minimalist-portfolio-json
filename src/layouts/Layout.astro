@@ -1,5 +1,6 @@
 ---
 import { getCV, getLang, homePath, type Lang } from "@/i18n"
+import { SITE } from "@/site.config"
 
 interface Props {
   title: string
@@ -70,15 +71,17 @@ const ogImage = new URL(lang === "en" ? "/og-en.png" : "/og.png", site).href
       }
     </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-WYFBN0LNFJ"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-WYFBN0LNFJ');
-    </script>
+    {
+      // Cloudflare Web Analytics: sin cookies, solo si hay token configurado
+      SITE.cloudflareAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: SITE.cloudflareAnalyticsToken })}
+        ></script>
+      )
+    }
   </head>
   <body>
     <slot />

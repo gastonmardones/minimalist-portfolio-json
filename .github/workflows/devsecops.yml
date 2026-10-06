@@ -28,7 +28,8 @@ jobs:
       contents: write # para publicar el reporte en main
     env:
       GITLEAKS_VERSION: "8.21.2"
-      SITE_URL: https://gastonmardones.netlify.app
+      SITE_URL: https://gastonmardones.dev
+      SITE_FALLBACK_URL: https://gastonmardones.netlify.app
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -66,7 +67,7 @@ jobs:
         run: npx --yes @cyclonedx/cyclonedx-npm@4 --omit dev --output-format JSON --output-file reports/sbom.cdx.json
 
       - name: Headers de seguridad del sitio publicado
-        run: curl -sSI "$SITE_URL/" > reports/headers.txt
+        run: curl -sSIf --max-time 20 "$SITE_URL/" > reports/headers.txt || curl -sSI --max-time 20 "$SITE_FALLBACK_URL/" > reports/headers.txt
 
       # 3 corridas y se toma la mediana de performance: Lighthouse varía mucho en runners
       # compartidos. Si alguna corrida falla se usan las que terminaron.

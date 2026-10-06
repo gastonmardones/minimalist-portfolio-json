@@ -4,7 +4,7 @@ import { LANGS, casePath, casesPath, cvPath, homePath, labPath, securityPath } f
 import { caseKey, getCases } from "@/lib/cases"
 
 export const GET: APIRoute = async ({ site }) => {
-  const base = site ?? new URL("https://gastonmardones.netlify.app")
+  const base = site ?? new URL("https://gastonmardones.dev")
   const paths: string[] = []
 
   for (const lang of LANGS) {
