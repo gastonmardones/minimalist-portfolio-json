@@ -30,11 +30,11 @@ jobs:
       GITLEAKS_VERSION: "8.21.2"
       SITE_URL: https://gastonmardones.netlify.app
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # gitleaks revisa todo el historial
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
           cache: npm
@@ -68,29 +68,25 @@ jobs:
       - name: Headers de seguridad del sitio publicado
         run: curl -sSI "$SITE_URL/" > reports/headers.txt
 
-      # 3 corridas y se toma la mediana de performance: Lighthouse varía mucho en runners compartidos
+      # 3 corridas y se toma la mediana de performance: Lighthouse varía mucho en runners
+      # compartidos. Si alguna corrida falla se usan las que terminaron.
       - name: Calidad web (Lighthouse, mediana de 3)
         run: |
-          npx --yes http-server@14 dist -p 8080 -s &
+          npx --yes http-server@14 dist -p 8080 -s > /dev/null 2>&1 &
           sleep 3
           for i in 1 2 3; do
             npx --yes lighthouse@12 http://localhost:8080/ --quiet \
               --output=json --output-path="reports/lighthouse-$i.json" \
-              --chrome-flags="--headless=new --no-sandbox"
+              --chrome-flags="--headless=new --no-sandbox" \
+              || echo "::warning::La corrida $i de Lighthouse falló"
           done
-          node -e '
-            const fs = require("fs")
-            const runs = [1, 2, 3].map((i) => JSON.parse(fs.readFileSync(`reports/lighthouse-${i}.json`, "utf8")))
-            runs.sort((a, b) => a.categories.performance.score - b.categories.performance.score)
-            fs.writeFileSync("reports/lighthouse.json", JSON.stringify(runs[1]))
-            console.log("performance:", runs.map((r) => Math.round(r.categories.performance.score * 100)).join(", "))
-          '
+          node scripts/lighthouse-median.mjs reports
 
       - name: Consolidar reporte
         run: node scripts/security-report.mjs reports
 
       - name: Guardar reportes como artefacto
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: devsecops-reports
           path: reports/
