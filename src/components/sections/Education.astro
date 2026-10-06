@@ -11,9 +11,14 @@ const { education } = getCV(lang)
   <ul>
     {
       education.map(({ institution, startDate, endDate, area }) => {
+        const start = startDate != null ? new Date(startDate) : null
         const endYear = endDate != null ? new Date(endDate).getUTCFullYear() : ui.present
         const years =
-          startDate != null ? `${new Date(startDate).getUTCFullYear()} - ${endYear}` : `${endYear}`
+          start && start > new Date()
+            ? `${ui.starting} ${start.getUTCFullYear()}`
+            : start
+              ? `${start.getUTCFullYear()} - ${endYear}`
+              : `${endYear}`
 
         return (
           <li>

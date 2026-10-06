@@ -114,12 +114,16 @@ const config = {
       <div>
         <h2>{ui.education}</h2>
         {
-          education.map(({ institution, area, endDate }) => (
-            <p class="line">
-              <strong>{area}</strong> · {institution}
-              {endDate && <span class="date"> · {year(endDate)}</span>}
-            </p>
-          ))
+          education.map(({ institution, area, startDate, endDate }) => {
+            const upcoming = startDate != null && new Date(startDate) > new Date()
+            return (
+              <p class="line">
+                <strong>{area}</strong> · {institution}
+                {upcoming && startDate && <span class="date"> · {ui.starting} {year(startDate)}</span>}
+                {!upcoming && endDate && <span class="date"> · {year(endDate)}</span>}
+              </p>
+            )
+          })
         }
         {
           certificates.length > 0 && (

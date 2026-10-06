@@ -1,19 +1,10 @@
 ---
 import Section from "../Section.astro"
-import JavaScript from "@/icons/javascript.astro"
-import TypeScript from "@/icons/type.astro"
-import React from "@/icons/react.astro"
-import Git from "@/icons/git.astro"
-import GitHub from "@/icons/GitHub.astro"
-import Django from "@/icons/django.astro"
-import Python from "@/icons/python.astro"
 import { SKILL_CATEGORIES, getCV, getLang, t } from "@/i18n"
 
 const lang = getLang(Astro.url)
 const ui = t(lang)
 const { skills } = getCV(lang)
-
-const SKILLS_ICONS: Record<string, any> = { JavaScript, TypeScript, React, Git, GitHub, Django, Python }
 
 const groups = SKILL_CATEGORIES.map((category) => ({
   category,
@@ -29,14 +20,9 @@ const groups = SKILL_CATEGORIES.map((category) => ({
           <dt>{ui.skillCategories[category]}</dt>
           <dd>
             <ul>
-              {items.map(({ name }) => {
-                const Icon = SKILLS_ICONS[name]
-                return (
-                  <li>
-                    {Icon && <Icon />} <span>{name}</span>
-                  </li>
-                )
-              })}
+              {items.map(({ name }) => (
+                <li>{name}</li>
+              ))}
             </ul>
           </dd>
         </div>

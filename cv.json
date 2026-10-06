@@ -7,7 +7,7 @@
     "phone": "+54 294 4321600",
     "cv_url": "/cv-gaston-mardones.pdf",
     "url": "https://gastonmardones.netlify.app",
-    "summary": "DevOps Engineer en GCBA: opero un cluster OpenShift de más de 1.000 namespaces con CI/CD declarativo y me especializo en el diagnóstico de incidentes de plataforma, observabilidad y pipelines. Hoy estoy orientando mi carrera hacia DevSecOps: análisis estático y detección de secretos a escala, seguridad de la cadena de suministro y hardening de plataforma. Vengo del desarrollo full stack y estudio Gestión y Análisis de Datos.",
+    "summary": "DevOps Engineer en GCBA: opero un cluster OpenShift de más de 1.000 namespaces con CI/CD declarativo y me especializo en el diagnóstico de incidentes de plataforma, observabilidad y pipelines. Hoy estoy orientando mi carrera hacia DevSecOps: análisis estático y detección de secretos a escala, seguridad de la cadena de suministro y hardening de plataforma. Vengo del desarrollo full stack y en 2027 empiezo la Licenciatura en Gestión y Análisis de Datos.",
     "location": {
       "address": "Villa Crespo",
       "postalCode": "1416",
@@ -166,10 +166,10 @@
     {
       "institution": "Universidad Nacional de San Luis (UNSL)",
       "url": "https://www.unsl.edu.ar/",
-      "area": "Licenciatura en Gestión y Análisis de Datos",
+      "area": "Licenciatura en Gestión y Análisis de Datos (a distancia)",
       "studyType": "Licenciatura",
-      "startDate": null,
-      "endDate": "2027-12-31",
+      "startDate": "2027-03-01",
+      "endDate": null,
       "score": null,
       "courses": [
         null
@@ -378,8 +378,8 @@
         "text": "Seguridad de la cadena de suministro de software: SAST, detección de secretos y hardening de pipelines."
       },
       {
-        "label": "Estudiando",
-        "text": "Licenciatura en Gestión y Análisis de Datos (UNSL)."
+        "label": "Próximamente",
+        "text": "Licenciatura en Gestión y Análisis de Datos en la UNSL (a distancia), desde 2027."
       },
       {
         "label": "Próximo objetivo",

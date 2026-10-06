@@ -7,7 +7,7 @@
     "phone": "+54 294 4321600",
     "cv_url": "/cv-gaston-mardones-en.pdf",
     "url": "https://gastonmardones.netlify.app",
-    "summary": "DevOps Engineer at the Buenos Aires City Government, operating an OpenShift cluster with 1,000+ namespaces and declarative CI/CD, specialized in troubleshooting platform, observability and pipeline incidents. I am steering my career toward DevSecOps: static analysis and secret detection at scale, software supply chain security and platform hardening. Background in full-stack development; currently studying Data Analytics.",
+    "summary": "DevOps Engineer at the Buenos Aires City Government, operating an OpenShift cluster with 1,000+ namespaces and declarative CI/CD, specialized in troubleshooting platform, observability and pipeline incidents. I am steering my career toward DevSecOps: static analysis and secret detection at scale, software supply chain security and platform hardening. Background in full-stack development; starting a Bachelor's in Data Management and Analytics in 2027.",
     "location": {
       "address": "Villa Crespo",
       "postalCode": "1416",
@@ -166,10 +166,10 @@
     {
       "institution": "Universidad Nacional de San Luis (UNSL)",
       "url": "https://www.unsl.edu.ar/",
-      "area": "Bachelor's in Data Management and Analytics",
+      "area": "Bachelor's in Data Management and Analytics (online)",
       "studyType": "Bachelor's degree",
-      "startDate": null,
-      "endDate": "2027-12-31",
+      "startDate": "2027-03-01",
+      "endDate": null,
       "score": null,
       "courses": [
         null
@@ -378,8 +378,8 @@
         "text": "Software supply chain security: SAST, secret detection and pipeline hardening."
       },
       {
-        "label": "Studying",
-        "text": "Bachelor's in Data Management and Analytics (UNSL)."
+        "label": "Coming up",
+        "text": "Bachelor's in Data Management and Analytics at UNSL (online), starting 2027."
       },
       {
         "label": "Next goal",
