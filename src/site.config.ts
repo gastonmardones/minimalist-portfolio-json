@@ -3,5 +3,5 @@ export const SITE = {
   url: "https://gastonmardones.dev",
   // Token de Cloudflare Web Analytics (se ve en el snippet: data-cf-beacon='{"token": "..."}').
   // Vacío = sin analytics.
-  cloudflareAnalyticsToken: "",
+  cloudflareAnalyticsToken: "b435684193c14d67bb9f0bc8d819b5f3",
 }
