@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-06T15:35:20.599Z",
-  "commit": null,
-  "runUrl": null,
+  "generatedAt": "2026-10-06T15:43:44.105Z",
+  "commit": "4323530",
+  "runUrl": "https://github.com/gastonmardones/minimalist-portfolio-json/actions/runs/37489716627",
   "checks": {
     "secrets": {
       "status": "pass",
@@ -17,7 +17,7 @@
         "error": 0,
         "warning": 0,
         "info": 0,
-        "files": 102
+        "files": 103
       }
     },
     "deps": {
@@ -55,11 +55,11 @@
       }
     },
     "lighthouse": {
-      "status": "pass",
+      "status": "warn",
       "tool": "Lighthouse",
       "summary": {
-        "performance": 99,
-        "accessibility": 100,
+        "performance": 72,
+        "accessibility": 96,
         "bestPractices": 100,
         "seo": 100
       }
