@@ -83,8 +83,8 @@ const overall = statuses.includes("fail") ? "fail" : statuses.includes("warn") ?
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 0 3px color-mix(in srgb, #22c55e 25%, transparent);
+    background: var(--ok);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent);
   }
 
   code {
@@ -99,18 +99,18 @@ const overall = statuses.includes("fail") ? "fail" : statuses.includes("warn") ?
   }
 
   .sec.pass {
-    color: #16a34a;
-    border-color: color-mix(in srgb, #16a34a 40%, transparent);
+    color: var(--ok);
+    border-color: color-mix(in srgb, var(--ok) 40%, transparent);
   }
 
   .sec.warn {
-    color: #b45309;
-    border-color: color-mix(in srgb, #b45309 40%, transparent);
+    color: var(--warn);
+    border-color: color-mix(in srgb, var(--warn) 40%, transparent);
   }
 
   .sec.fail {
-    color: #dc2626;
-    border-color: color-mix(in srgb, #dc2626 40%, transparent);
+    color: var(--fail);
+    border-color: color-mix(in srgb, var(--fail) 40%, transparent);
   }
 
   .sec:hover {

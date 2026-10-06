@@ -6,22 +6,30 @@
 <canvas class="cluster-bg" aria-hidden="true" data-cluster></canvas>
 
 <script>
+  // Rendimiento: se dibuja un cuadro estático cuando el navegador está libre y la
+  // animación (30 fps) arranca recién con la primera interacción del usuario.
   const canvas = document.querySelector<HTMLCanvasElement>("[data-cluster]")
   const ctx = canvas?.getContext("2d")
 
   if (canvas && ctx) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const LINK = 120
+    const FRAME_MS = 1000 / 30
     let width = 0
     let height = 0
     let visible = true
+    let animating = false
     let frame = 0
+    let last = 0
     const mouse = { x: -9999, y: -9999 }
 
     type Node = { x: number; y: number; vx: number; vy: number; r: number; pulse: number }
     let nodes: Node[] = []
+    let color = "#0f766e"
 
-    const accent = () => getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#0f766e"
+    const readColor = () => {
+      color = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || color
+    }
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect()
@@ -31,58 +39,49 @@
       canvas.width = width * dpr
       canvas.height = height * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      const count = Math.round(Math.min(70, Math.max(24, (width * height) / 9000)))
+      const count = Math.round(Math.min(45, Math.max(18, (width * height) / 14000)))
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
         r: Math.random() * 1.6 + 1,
         pulse: Math.random() * Math.PI * 2,
       }))
     }
 
     const draw = () => {
-      const color = accent()
       ctx.clearRect(0, 0, width, height)
-
-      for (const n of nodes) {
-        if (!reduce) {
-          n.x += n.vx
-          n.y += n.vy
-          n.pulse += 0.02
-          if (n.x < 0 || n.x > width) n.vx *= -1
-          if (n.y < 0 || n.y > height) n.vy *= -1
-        }
-      }
-
       ctx.strokeStyle = color
+      ctx.fillStyle = color
+      ctx.lineWidth = 1
+
       for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i]
         for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i]
           const b = nodes[j]
-          const d = Math.hypot(a.x - b.x, a.y - b.y)
+          const dx = a.x - b.x
+          const dy = a.y - b.y
+          if (Math.abs(dx) > LINK || Math.abs(dy) > LINK) continue
+          const d = Math.hypot(dx, dy)
           if (d < LINK) {
             ctx.globalAlpha = (1 - d / LINK) * 0.18
-            ctx.lineWidth = 1
             ctx.beginPath()
             ctx.moveTo(a.x, a.y)
             ctx.lineTo(b.x, b.y)
             ctx.stroke()
           }
         }
-        const n = nodes[i]
-        const dm = Math.hypot(n.x - mouse.x, n.y - mouse.y)
+        const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y)
         if (dm < LINK * 1.4) {
           ctx.globalAlpha = (1 - dm / (LINK * 1.4)) * 0.45
           ctx.beginPath()
-          ctx.moveTo(n.x, n.y)
+          ctx.moveTo(a.x, a.y)
           ctx.lineTo(mouse.x, mouse.y)
           ctx.stroke()
         }
       }
 
-      ctx.fillStyle = color
       for (const n of nodes) {
         const near = Math.hypot(n.x - mouse.x, n.y - mouse.y) < LINK
         ctx.globalAlpha = near ? 0.9 : 0.35 + Math.sin(n.pulse) * 0.15
@@ -91,38 +90,68 @@
         ctx.fill()
       }
       ctx.globalAlpha = 1
-
-      if (!reduce && visible) frame = requestAnimationFrame(draw)
     }
 
-    const start = () => {
+    const step = (time: number) => {
+      if (!animating || !visible) return
+      frame = requestAnimationFrame(step)
+      if (time - last < FRAME_MS) return
+      last = time
+      for (const n of nodes) {
+        n.x += n.vx
+        n.y += n.vy
+        n.pulse += 0.04
+        if (n.x < 0 || n.x > width) n.vx *= -1
+        if (n.y < 0 || n.y > height) n.vy *= -1
+      }
+      draw()
+    }
+
+    const animate = () => {
+      if (reduce || animating) return
+      animating = true
       cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(draw)
+      frame = requestAnimationFrame(step)
     }
 
-    canvas.parentElement?.addEventListener("pointermove", (event) => {
+    const host = canvas.parentElement
+    host?.addEventListener("pointermove", (event) => {
       const rect = canvas.getBoundingClientRect()
       mouse.x = event.clientX - rect.left
       mouse.y = event.clientY - rect.top
       if (reduce) draw()
+      animate()
     })
-    canvas.parentElement?.addEventListener("pointerleave", () => {
+    host?.addEventListener("pointerleave", () => {
       mouse.x = mouse.y = -9999
     })
+    window.addEventListener("scroll", animate, { once: true, passive: true })
+    window.addEventListener("touchstart", animate, { once: true, passive: true })
 
     new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting
-      if (visible) start()
+      if (visible && animating) {
+        cancelAnimationFrame(frame)
+        frame = requestAnimationFrame(step)
+      }
     }).observe(canvas)
 
     window.addEventListener("resize", () => {
       resize()
-      start()
+      draw()
     })
-    document.addEventListener("toggle-theme", () => requestAnimationFrame(draw))
+    document.addEventListener("toggle-theme", () => {
+      readColor()
+      draw()
+    })
 
-    resize()
-    start()
+    // Primer cuadro cuando el navegador está libre (no compite con la carga)
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 300))
+    idle(() => {
+      readColor()
+      resize()
+      draw()
+    })
   }
 </script>
 
