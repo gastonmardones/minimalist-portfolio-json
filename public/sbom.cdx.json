@@ -3,9 +3,9 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
   "version": 1,
-  "serialNumber": "urn:uuid:0ab3bf28-dba6-40d9-a06c-db7deb063af6",
+  "serialNumber": "urn:uuid:d475e776-8b59-4ddf-8452-bd152ff33e57",
   "metadata": {
-    "timestamp": "2026-10-06T16:17:23.546Z",
+    "timestamp": "2026-10-06T16:46:49.498Z",
     "tools": {
       "components": [
         {
@@ -153,52 +153,6 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@astrojs/check"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "partytown",
-      "group": "@astrojs",
-      "version": "2.1.8",
-      "bom-ref": "minimalist-portfolio-json@0.0.1|@astrojs/partytown@2.1.8",
-      "author": "withastro",
-      "description": "Use Partytown to move scripts into a web worker in your Astro project",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "acknowledgement": "declared"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40astrojs/partytown@2.1.8",
-      "externalReferences": [
-        {
-          "url": "git+https://github.com/withastro/astro.git#packages/integrations/partytown",
-          "type": "vcs",
-          "comment": "as detected from PackageJson property \"repository.url\" and \"repository.directory\""
-        },
-        {
-          "url": "https://docs.astro.build/en/guides/integrations-guide/partytown/",
-          "type": "website",
-          "comment": "as detected from PackageJson property \"homepage\""
-        },
-        {
-          "url": "https://github.com/withastro/astro/issues",
-          "type": "issue-tracker",
-          "comment": "as detected from PackageJson property \"bugs.url\""
-        },
-        {
-          "url": "https://registry.npmjs.org/@astrojs/partytown/-/partytown-2.1.8.tgz",
-          "type": "distribution",
-          "comment": "as detected from npm-ls property \"resolved\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@astrojs/partytown"
         }
       ]
     },
@@ -1641,104 +1595,6 @@
     },
     {
       "type": "library",
-      "name": "partytown",
-      "group": "@qwik.dev",
-      "version": "0.14.5",
-      "bom-ref": "minimalist-portfolio-json@0.0.1|@qwik.dev/partytown@0.14.5",
-      "description": "Relocate resource intensive third-party scripts off of the main thread and into a web worker.",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "acknowledgement": "declared"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40qwik.dev/partytown@0.14.5",
-      "externalReferences": [
-        {
-          "url": "git+https://github.com/QwikDev/partytown.git",
-          "type": "vcs",
-          "comment": "as detected from PackageJson property \"repository.url\""
-        },
-        {
-          "url": "https://github.com/QwikDev/partytown#readme",
-          "type": "website",
-          "comment": "as detected from PackageJson property \"homepage\""
-        },
-        {
-          "url": "https://github.com/QwikDev/partytown/issues",
-          "type": "issue-tracker",
-          "comment": "as detected from PackageJson property \"bugs.url\""
-        },
-        {
-          "url": "https://registry.npmjs.org/@qwik.dev/partytown/-/partytown-0.14.5.tgz",
-          "type": "distribution",
-          "comment": "as detected from npm-ls property \"resolved\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:constraint:engine:node",
-          "value": ">=18.0.0"
-        },
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@qwik.dev/partytown"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "mrmime",
-      "version": "2.0.1",
-      "bom-ref": "minimalist-portfolio-json@0.0.1|mrmime@2.0.1",
-      "author": "Luke Edwards",
-      "description": "A tiny (2.8kB) and fast utility for getting a MIME type from an extension or filename",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "acknowledgement": "declared"
-          }
-        }
-      ],
-      "purl": "pkg:npm/mrmime@2.0.1",
-      "externalReferences": [
-        {
-          "url": "git+https://github.com/lukeed/mrmime.git",
-          "type": "vcs",
-          "comment": "as detected from PackageJson property \"repository.url\""
-        },
-        {
-          "url": "https://github.com/lukeed/mrmime#readme",
-          "type": "website",
-          "comment": "as detected from PackageJson property \"homepage\""
-        },
-        {
-          "url": "https://github.com/lukeed/mrmime/issues",
-          "type": "issue-tracker",
-          "comment": "as detected from PackageJson property \"bugs.url\""
-        },
-        {
-          "url": "https://registry.npmjs.org/mrmime/-/mrmime-2.0.1.tgz",
-          "type": "distribution",
-          "comment": "as detected from npm-ls property \"resolved\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:constraint:engine:node",
-          "value": ">=10"
-        },
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mrmime"
-        }
-      ]
-    },
-    {
-      "type": "library",
       "name": "runtime",
       "group": "@emnapi",
       "version": "1.11.3",
@@ -3057,6 +2913,55 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/magicast"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "mrmime",
+      "version": "2.0.1",
+      "bom-ref": "minimalist-portfolio-json@0.0.1|mrmime@2.0.1",
+      "author": "Luke Edwards",
+      "description": "A tiny (2.8kB) and fast utility for getting a MIME type from an extension or filename",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:npm/mrmime@2.0.1",
+      "externalReferences": [
+        {
+          "url": "git+https://github.com/lukeed/mrmime.git",
+          "type": "vcs",
+          "comment": "as detected from PackageJson property \"repository.url\""
+        },
+        {
+          "url": "https://github.com/lukeed/mrmime#readme",
+          "type": "website",
+          "comment": "as detected from PackageJson property \"homepage\""
+        },
+        {
+          "url": "https://github.com/lukeed/mrmime/issues",
+          "type": "issue-tracker",
+          "comment": "as detected from PackageJson property \"bugs.url\""
+        },
+        {
+          "url": "https://registry.npmjs.org/mrmime/-/mrmime-2.0.1.tgz",
+          "type": "distribution",
+          "comment": "as detected from npm-ls property \"resolved\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:constraint:engine:node",
+          "value": ">=10"
+        },
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/mrmime"
         }
       ]
     },
@@ -15474,7 +15379,6 @@
       "ref": "minimalist-portfolio-json@0.0.1",
       "dependsOn": [
         "minimalist-portfolio-json@0.0.1|@astrojs/check@0.9.10",
-        "minimalist-portfolio-json@0.0.1|@astrojs/partytown@2.1.8",
         "minimalist-portfolio-json@0.0.1|@img/sharp-wasm32@0.35.5",
         "minimalist-portfolio-json@0.0.1|astro@7.3.6",
         "minimalist-portfolio-json@0.0.1|hotkeypad@0.1.0",
@@ -15489,13 +15393,6 @@
         "minimalist-portfolio-json@0.0.1|kleur@4.1.5",
         "minimalist-portfolio-json@0.0.1|typescript@5.9.3",
         "minimalist-portfolio-json@0.0.1|yargs@18.2.0"
-      ]
-    },
-    {
-      "ref": "minimalist-portfolio-json@0.0.1|@astrojs/partytown@2.1.8",
-      "dependsOn": [
-        "minimalist-portfolio-json@0.0.1|@qwik.dev/partytown@0.14.5",
-        "minimalist-portfolio-json@0.0.1|mrmime@2.0.1"
       ]
     },
     {
@@ -15771,12 +15668,6 @@
       ]
     },
     {
-      "ref": "minimalist-portfolio-json@0.0.1|@qwik.dev/partytown@0.14.5"
-    },
-    {
-      "ref": "minimalist-portfolio-json@0.0.1|mrmime@2.0.1"
-    },
-    {
       "ref": "minimalist-portfolio-json@0.0.1|@emnapi/runtime@1.11.3",
       "dependsOn": [
         "minimalist-portfolio-json@0.0.1|tslib@2.8.1"
@@ -15916,6 +15807,9 @@
         "minimalist-portfolio-json@0.0.1|@babel/types@7.29.8",
         "minimalist-portfolio-json@0.0.1|source-map-js@1.2.2"
       ]
+    },
+    {
+      "ref": "minimalist-portfolio-json@0.0.1|mrmime@2.0.1"
     },
     {
       "ref": "minimalist-portfolio-json@0.0.1|neotraverse@1.0.1"
