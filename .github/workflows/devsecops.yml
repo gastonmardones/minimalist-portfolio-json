@@ -68,13 +68,23 @@ jobs:
       - name: Headers de seguridad del sitio publicado
         run: curl -sSI "$SITE_URL/" > reports/headers.txt
 
-      - name: Calidad web (Lighthouse)
+      # 3 corridas y se toma la mediana de performance: Lighthouse varía mucho en runners compartidos
+      - name: Calidad web (Lighthouse, mediana de 3)
         run: |
           npx --yes http-server@14 dist -p 8080 -s &
           sleep 3
-          npx --yes lighthouse@12 http://localhost:8080/ --quiet \
-            --output=json --output-path=reports/lighthouse.json \
-            --chrome-flags="--headless=new --no-sandbox"
+          for i in 1 2 3; do
+            npx --yes lighthouse@12 http://localhost:8080/ --quiet \
+              --output=json --output-path="reports/lighthouse-$i.json" \
+              --chrome-flags="--headless=new --no-sandbox"
+          done
+          node -e '
+            const fs = require("fs")
+            const runs = [1, 2, 3].map((i) => JSON.parse(fs.readFileSync(`reports/lighthouse-${i}.json`, "utf8")))
+            runs.sort((a, b) => a.categories.performance.score - b.categories.performance.score)
+            fs.writeFileSync("reports/lighthouse.json", JSON.stringify(runs[1]))
+            console.log("performance:", runs.map((r) => Math.round(r.categories.performance.score * 100)).join(", "))
+          '
 
       - name: Consolidar reporte
         run: node scripts/security-report.mjs reports
