@@ -1,0 +1,48 @@
+---
+import Layout from "@/layouts/Layout.astro"
+
+import About from "@/components/sections/About.astro"
+import Cases from "@/components/sections/Cases.astro"
+import Certificates from "@/components/sections/Certificates.astro"
+import Education from "@/components/sections/Education.astro"
+import Experience from "@/components/sections/Experience.astro"
+import Hero from "@/components/sections/Hero.astro"
+import Projects from "@/components/sections/Projects.astro"
+import Skills from "@/components/sections/Skills.astro"
+import KeyboardManager from "@/components/KeyboardManager.astro"
+
+import { getCV, getLang, t } from "@/i18n"
+
+const lang = getLang(Astro.url)
+const { basics, projects, certificates } = getCV(lang)
+const { name, label } = basics
+---
+
+<Layout title={t(lang).pageTitle(name, label)}>
+  <main>
+    <Hero />
+    <About />
+    <Experience />
+    <Cases />
+    <Education />
+    {certificates.length > 0 && <Certificates />}
+    {projects.length > 0 && <Projects />}
+    <Skills />
+  </main>
+
+  <KeyboardManager />
+</Layout>
+
+<style>
+  main {
+    padding: 4rem;
+    margin: auto;
+    width: 100%;
+  }
+
+  @media (width <= 700px) {
+    main {
+      padding: 2rem;
+    }
+  }
+</style>

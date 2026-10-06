@@ -1,17 +1,19 @@
 ---
 import Section from "../Section.astro"
 
-import { work } from "@cv"
+import { getCV, getLang, t } from "@/i18n"
+const lang = getLang(Astro.url)
+const { work } = getCV(lang)
 ---
 
-<Section title="Experiencia laboral">
+<Section title={t(lang).experience}>
   <ul>
     {
       work.map(
         ({ name, startDate, endDate, position, summary, highlights, url }) => {
-          const startYear = new Date(startDate).getFullYear()
+          const startYear = new Date(startDate).getUTCFullYear()
           const endYear =
-            endDate != null ? new Date(endDate).getFullYear() : "Actual"
+            endDate != null ? new Date(endDate).getUTCFullYear() : t(lang).present
           const years = `${startYear} - ${endYear}`
 
           return (
@@ -20,7 +22,7 @@ import { work } from "@cv"
                 <header>
                   <div>
                     <h3>
-                      <a href={url} title={`Ver ${name}`} target="_blank">
+                      <a href={url} title={t(lang).see(name)} target="_blank">
                         {name}
                       </a>
                     </h3>
@@ -32,6 +34,13 @@ import { work } from "@cv"
 
                 <footer>
                   <p>{summary}</p>
+                  {highlights.filter(Boolean).length > 0 && (
+                    <ul class="highlights">
+                      {highlights.filter(Boolean).map((highlight) => (
+                        <li>{highlight}</li>
+                      ))}
+                    </ul>
+                  )}
                 </footer>
               </article>
             </li>
@@ -78,6 +87,17 @@ import { work } from "@cv"
     color: #555;
     font-size: 0.85rem;
     min-width: 102px;
+  }
+
+  .highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+    padding-left: 1.1rem;
+    list-style: disc;
+    font-size: 0.9rem;
+    color: #333;
   }
 
   @media (width <= 700px) {

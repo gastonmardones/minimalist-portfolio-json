@@ -1,11 +1,12 @@
 ---
 import Section from "../Section.astro"
 
-import { basics } from "@cv"
-const { summary } = basics
+import { getCV, getLang, t } from "@/i18n"
+const lang = getLang(Astro.url)
+const { summary } = getCV(lang).basics
 ---
 
-<Section title="Sobre mí">
+<Section title={t(lang).about}>
   <p>
     {summary}
   </p>

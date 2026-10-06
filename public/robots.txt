@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gastonmardones.netlify.app/sitemap.xml

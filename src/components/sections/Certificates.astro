@@ -1,0 +1,84 @@
+---
+import Section from "../Section.astro"
+
+import { getCV, getLang, t } from "@/i18n"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const { certificates } = getCV(lang)
+
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString(lang === "en" ? "en-US" : "es-AR", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  })
+---
+
+<Section title={ui.certificates}>
+  <ul>
+    {
+      certificates.map(({ name, issuer, date, url }) => (
+        <li>
+          <article>
+            <header>
+              <div>
+                <h3>
+                  {url ? (
+                    <a href={url} target="_blank" rel="noopener noreferrer">
+                      {name}
+                    </a>
+                  ) : (
+                    name
+                  )}
+                </h3>
+                <h4>{issuer}</h4>
+              </div>
+              <time datetime={date}>{formatDate(date)}</time>
+            </header>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  h3 {
+    font-weight: 500;
+    color: #111;
+  }
+
+  h3 a {
+    color: #111;
+  }
+
+  h3 a:hover {
+    text-decoration: underline;
+  }
+
+  h4 {
+    color: #222;
+    font-weight: 400;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  time {
+    color: #555;
+    font-size: 0.85rem;
+    min-width: 102px;
+    text-align: right;
+  }
+</style>

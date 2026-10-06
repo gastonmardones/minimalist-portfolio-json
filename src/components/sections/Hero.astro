@@ -1,5 +1,5 @@
 ---
-import { basics } from "@cv"
+import { getCV, getLang, homePath, t } from "@/i18n"
 import Section from "@/components/Section.astro"
 import Mail from "@/icons/Mail.astro"
 import Phone from "@/icons/Phone.astro"
@@ -9,7 +9,10 @@ import WorldMap from "@/icons/WorldMap.astro"
 import type { SocialIcon } from "@/types"
 import Cv from "@/icons/cv.astro"
 
-const { name, label, image, location, profiles, phone, email, cv_url } = basics
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const otherLang = lang === "es" ? "en" : "es"
+const { name, label, image, location, profiles, phone, email, cv_url } = getCV(lang).basics
 const { city, region, address } = location
 
 const SOCIAL_ICONS: SocialIcon = {
@@ -24,6 +27,15 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
 ---
 
 <Section>
+  <a
+    class="lang-switch no-print"
+    href={homePath(otherLang)}
+    hreflang={otherLang}
+    lang={otherLang}
+    title={ui.switchLangTitle}
+  >
+    {ui.switchLang}
+  </a>
   <div class="container">
     <div class="info">
       <h1>{name}</h1>
@@ -41,7 +53,7 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
           email && (
             <a
               href={`mailto:${email}`}
-              title={`Enviar un correo electrónico a ${name} al correo ${email}`}
+              title={ui.sendMail(name, email)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -53,7 +65,7 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
           phone && (
             <a
               href={`tel:${phone}`}
-              title={`Llamar por teléfono a ${name} al número ${phone}`}
+              title={ui.call(name, phone)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -62,13 +74,13 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
           )
         }
         {
-          profiles.map(({ network, url, username }) => {
+          profiles.map(({ network, url }) => {
             const Icon = SOCIAL_ICONS[network]
 
             return (
               <a
                 href={url}
-                title={`Visitar el perfil de ${name} en ${network}`}
+                title={ui.visitProfile(name, network)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -81,7 +93,7 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
           cv_url && (
             <a
               href={`${cv_url}`}
-              title={`CV de ${name}`}
+              title={ui.cvOf(name)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -98,6 +110,23 @@ const printInfo = [email, phone, linkedUrl].filter(Boolean).join(" • ")
 </Section>
 
 <style>
+  .lang-switch {
+    display: block;
+    width: fit-content;
+    margin: 0 0 1rem auto;
+    color: #555;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .lang-switch:hover {
+    background: #eee;
+    border-color: #ddd;
+  }
+
   .container {
     display: flex;
     flex-direction: row;

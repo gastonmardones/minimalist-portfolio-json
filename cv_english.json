@@ -1,14 +1,13 @@
 {
   "basics": {
     "name": "Gastón Mardones",
-    "label": "Full Stack Developer",
+    "label": "DevOps Engineer · Platform & DevSecOps",
     "image": "/me.jpeg",
     "email": "gastonmardones22@gmail.com",
     "phone": "+54 294 4321600",
-    "cv_url": "https://drive.google.com/file/d/1HGVNIJmYIgKPfDbftqWpCnDx_UAA8RjP/view?usp=sharing",
-    
-    "url": "",
-    "summary": "I am a self-taught individual with a great passion for technology and the impact it generates in the world. I have a curiosity to learn something different every day, the motivation to tackle new challenges, and the need to be surrounded by people with similar interests, all with the same goal: to seek opportunities to keep learning. I can understand and write in English, but my ability to hold fluent conversations is limited. I'm looking for a job that would allow me to practice and enhance my spoken English skills.",
+    "cv_url": "/cv-gaston-mardones-en.pdf",
+    "url": "https://gastonmardones.netlify.app",
+    "summary": "DevOps Engineer at the Buenos Aires City Government, operating an OpenShift cluster with 1,000+ namespaces and declarative CI/CD, specialized in troubleshooting platform, observability and pipeline incidents. I am steering my career toward DevSecOps: static analysis and secret detection at scale, software supply chain security and platform hardening. Background in full-stack development; currently studying Data Analytics.",
     "location": {
       "address": "Villa Crespo",
       "postalCode": "1416",
@@ -19,8 +18,8 @@
     "profiles": [
       {
         "network": "LinkedIn",
-        "username": "gaston-mardones",
-        "url": "https://linkedin.com/in/gaston-mardones"
+        "username": "gastonmardones",
+        "url": "https://www.linkedin.com/in/gastonmardones"
       },
       {
         "network": "GitHub",
@@ -31,156 +30,280 @@
   },
   "work": [
     {
-      "name": "Agencia de Sistemas de Información (ASI) - Gobierno de la ciudad de Buenos Aires",
-      "position": "DevOps",
+      "name": "Agencia de Sistemas de Información (ASI) · TECBA · GCBA",
+      "position": "DevOps Engineer",
       "url": "https://buenosaires.gob.ar/agencia-de-sistemas-de-informacion",
       "startDate": "2025-01-05",
       "endDate": null,
-      "summary": "Application homologation and deployment ensuring compliance with government technical standards, executing automated deployments on OpenShift and performing full setup of new projects by configuring CI/CD pipelines with Tekton and Argo CD. I evaluate performance metrics and provide technical recommendations focused on application optimization and standards compliance. Additionally, I coordinate meetings with vendors and work collaboratively with infrastructure, development, planning, and project teams to ensure successful technical integration, while also providing second-level technical support through log analysis and resolution of critical incidents.",
+      "summary": "Operating and evolving the City Government's OpenShift platform and CI/CD (Tekton + ArgoCD).",
       "highlights": [
-        null
+        "Technical point of contact for process improvement across development, infrastructure and vendor teams.",
+        "Built an automated security audit (Python scripts with gitleaks and Semgrep, 1,100+ rules) across ~700 repositories, with consolidated per-project and per-file reports for development teams.",
+        "Took part in migrating the repositories to a new GitLab platform, resolving the impact on ~570 Tekton pipelines (DNS, SSH credentials and connectivity through F5).",
+        "Designed with Red Hat the golden path for Red Hat Developer Hub (Backstage) and support its rollout with client teams: pilot applications, template and pipeline gaps, and non-standard cases.",
+        "Contributed to GitOps secret management with Sealed Secrets: a Tekton pipeline that encrypts secrets and versions them in the manifests repository.",
+        "Resolved a 100% full Loki WAL: identified a stuck checkpoint as the root cause and recovered the service without restarting pods, preventing log loss.",
+        "Found that cluster workers had 99% of CPU reserved against 7-43% actual usage, and built an analysis of oversized resource requests across ~4,500 pods.",
+        "Built Grafana observability dashboards and Python automations with Jira Cloud, and drive a centralized component catalog as the single source of truth for ticketing and observability."
       ]
     },
     {
       "name": "EduAnalytica",
       "position": "Full Stack Web Developer",
       "url": "https://eduanalytica.com.ar/",
-      "startDate": "2021-01-01",
-      "endDate": null,
-      "summary": "As a fullstack developer with a focus on the Django framework, I have been playing an integral role in the creation and enhancement of web solutions specifically targeted at schools and educational environments. My role has been centered around developing innovative and functional tools to enhance the educational and administrative experience.",
+      "startDate": "2020-01-01",
+      "endDate": "2025-12-31",
+      "summary": "Web management platform for schools (Python, Django, DRF, Celery, MySQL, React, HTMX, Docker, React Native).",
       "highlights": [
+        "Led the design, development and maintenance of a web management platform for schools.",
+        "Coordinated a team of 3 developers: task planning, code review and technical mentoring.",
+        "Gathered requirements from teachers and school staff and turned them into concrete features.",
+        "Migrated from dedicated servers to VPS, cutting costs, and improved application performance."
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Organization",
+      "position": "Volunteer",
+      "url": "https://organization.com/",
+      "startDate": "2012-01-01",
+      "endDate": "2013-01-01",
+      "summary": "Description…",
+      "highlights": [
+        "Awarded 'Volunteer of the Month'"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Universidad Nacional de San Luis (UNSL)",
+      "url": "https://www.unsl.edu.ar/",
+      "area": "Bachelor's in Data Management and Analytics",
+      "studyType": "Bachelor's degree",
+      "startDate": null,
+      "endDate": "2027-12-31",
+      "score": null,
+      "courses": [
         null
       ]
     }
   ],
-  "volunteer": [{
-    "organization": "Organization",
-    "position": "Volunteer",
-    "url": "https://organization.com/",
-    "startDate": "2012-01-01",
-    "endDate": "2013-01-01",
-    "summary": "Description…",
-    "highlights": [
-      "Awarded 'Volunteer of the Month'"
-    ]
-  }],
-  "education": [{
-    "institution": "IFTS N°18",
-    "url": "https://www.ifts18.edu.ar/carreras/ciencia-de-datos",
-    "area": "Higher Technician in Data Science and Artificial Intelligence",
-    "studyType": "Technical Degree",
-    "startDate": "2025-03-17",
-    "endDate": null,
-    "score": null,
-    "courses": [
-      null
-    ]
-  }],
-  "awards": [{
-    "title": "Award",
-    "date": "2014-11-01",
-    "awarder": "Company",
-    "summary": "There is no spoon."
-  }],
-  "certificates": [{
-    "name": "Certificate",
-    "date": "2021-11-07",
-    "issuer": "Company",
-    "url": "https://certificate.com"
-  }],
-  "publications": [{
-    "name": "Publication",
-    "publisher": "Company",
-    "releaseDate": "2014-10-01",
-    "url": "https://publication.com",
-    "summary": "Description…"
-  }],
+  "awards": [
+    {
+      "title": "Award",
+      "date": "2014-11-01",
+      "awarder": "Company",
+      "summary": "There is no spoon."
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Oracle Cloud Infrastructure 2025 Certified Foundations Associate",
+      "date": "2025-09-04",
+      "issuer": "Oracle",
+      "url": ""
+    }
+  ],
+  "publications": [
+    {
+      "name": "Publication",
+      "publisher": "Company",
+      "releaseDate": "2014-10-01",
+      "url": "https://publication.com",
+      "summary": "Description…"
+    }
+  ],
   "skills": [
     {
-      "name": "Python",
-      "level": "Advanced",
+      "name": "OpenShift",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "Backend", "JavaScript Superset"
+        "Plataforma"
       ]
     },
     {
-      "name": "Django",
-      "level": "Advanced",
+      "name": "Kubernetes",
+      "level": "",
       "keywords": [
-        "Web Development", "Backend", "Python", "Server"
+        "Plataforma"
       ]
     },
     {
-      "name": "HTML",
-      "level": "Intermediate",
+      "name": "Docker",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend"
+        "Plataforma"
       ]
     },
     {
-      "name": "CSS",
-      "level": "Basic",
+      "name": "Linux",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "Responsive Design"
+        "Plataforma"
       ]
     },
     {
-      "name": "JavaScript",
-      "level": "Intermediate",
+      "name": "Varnish",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "Backend", "Fullstack"
+        "Plataforma"
       ]
     },
     {
-      "name": "Tailwind",
-      "level": "Basic",
+      "name": "Tekton",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "CSS Framework", "Responsive Design"
+        "CI/CD"
       ]
     },
     {
-      "name": "TypeScript",
-      "level": "Basic",
+      "name": "ArgoCD",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "Backend", "JavaScript Superset"
+        "CI/CD"
       ]
     },
     {
-      "name": "MySQL",
-      "level": "Intermediate",
+      "name": "GitLab",
+      "level": "",
       "keywords": [
-        "Databases", "SQL", "Backend"
+        "CI/CD"
+      ]
+    },
+    {
+      "name": "Red Hat Developer Hub",
+      "level": "",
+      "keywords": [
+        "CI/CD"
+      ]
+    },
+    {
+      "name": "Nexus",
+      "level": "",
+      "keywords": [
+        "CI/CD"
       ]
     },
     {
       "name": "Git",
-      "level": "Intermediate",
+      "level": "",
       "keywords": [
-        "Version Control", "Colaboration", "Source Code"
+        "CI/CD"
       ]
     },
     {
-      "name": "GitHub",
-      "level": "Avanzado",
+      "name": "Sealed Secrets",
+      "level": "",
       "keywords": [
-        "Version Control", "Colaboration", "Source Code", "Git"
+        "Seguridad"
       ]
     },
     {
-      "name": "Astro",
-      "level": "Basic",
+      "name": "Keycloak / OIDC",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "React Framework", "SSR", "Static Generation"
+        "Seguridad"
+      ]
+    },
+    {
+      "name": "gitleaks",
+      "level": "",
+      "keywords": [
+        "Seguridad"
+      ]
+    },
+    {
+      "name": "Semgrep",
+      "level": "",
+      "keywords": [
+        "Seguridad"
+      ]
+    },
+    {
+      "name": "SonarQube",
+      "level": "",
+      "keywords": [
+        "Seguridad"
+      ]
+    },
+    {
+      "name": "Loki",
+      "level": "",
+      "keywords": [
+        "Observabilidad"
+      ]
+    },
+    {
+      "name": "Grafana",
+      "level": "",
+      "keywords": [
+        "Observabilidad"
+      ]
+    },
+    {
+      "name": "Elastic / Kibana",
+      "level": "",
+      "keywords": [
+        "Observabilidad"
+      ]
+    },
+    {
+      "name": "Python",
+      "level": "",
+      "keywords": [
+        "Lenguajes"
+      ]
+    },
+    {
+      "name": "Bash",
+      "level": "",
+      "keywords": [
+        "Lenguajes"
+      ]
+    },
+    {
+      "name": "Django",
+      "level": "",
+      "keywords": [
+        "Lenguajes"
       ]
     },
     {
       "name": "React",
-      "level": "Basic",
+      "level": "",
       "keywords": [
-        "Web Development", "Frontend", "JavaScript Library", "UI"
+        "Lenguajes"
+      ]
+    },
+    {
+      "name": "PostgreSQL",
+      "level": "",
+      "keywords": [
+        "Datos"
+      ]
+    },
+    {
+      "name": "MariaDB",
+      "level": "",
+      "keywords": [
+        "Datos"
+      ]
+    },
+    {
+      "name": "OracleDB",
+      "level": "",
+      "keywords": [
+        "Datos"
+      ]
+    },
+    {
+      "name": "MongoDB",
+      "level": "",
+      "keywords": [
+        "Datos"
       ]
     }
   ],
-  "projects": [
-  ]
+  "projects": []
 }

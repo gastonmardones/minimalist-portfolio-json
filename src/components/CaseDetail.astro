@@ -1,0 +1,180 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import Section from "@/components/Section.astro"
+
+import type { Case } from "@/data/cases"
+import { casePath, getCV, getLang, homePath, t } from "@/i18n"
+
+interface Props {
+  caseStudy: Case
+}
+
+const { caseStudy } = Astro.props
+const lang = getLang(Astro.url)
+const ui = t(lang)
+const otherLang = lang === "es" ? "en" : "es"
+const { name } = getCV(lang).basics
+const { slug, date, tags, snippet, content } = caseStudy
+const c = content[lang]
+
+const formattedDate = new Date(date).toLocaleDateString(
+  lang === "en" ? "en-US" : "es-AR",
+  { month: "long", year: "numeric", timeZone: "UTC" }
+)
+---
+
+<Layout
+  title={`${c.title} · ${name}`}
+  description={c.summary}
+  alternates={{ es: casePath("es", slug), en: casePath("en", slug) }}
+>
+  <main>
+    <Section>
+      <nav class="no-print">
+        <a href={homePath(lang)}>{ui.backHome}</a>
+        <a href={casePath(otherLang, slug)} hreflang={otherLang} lang={otherLang}>
+          {ui.switchLang}
+        </a>
+      </nav>
+
+      <header>
+        <time datetime={date}>{formattedDate}</time>
+        <h1>{c.title}</h1>
+        <p class="summary">{c.summary}</p>
+        <ul class="tags">
+          {tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </header>
+    </Section>
+
+    <Section title={ui.context}>
+      <p>{c.context}</p>
+    </Section>
+
+    <Section title={ui.symptom}>
+      <p>{c.symptom}</p>
+      {snippet && <pre><code>{snippet}</code></pre>}
+    </Section>
+
+    <Section title={ui.diagnosis}>
+      <ol>
+        {c.diagnosis.map((step) => <li>{step}</li>)}
+      </ol>
+    </Section>
+
+    <Section title={ui.rootCause}>
+      <p>{c.rootCause}</p>
+    </Section>
+
+    <Section title={ui.fix}>
+      <ol>
+        {c.fix.map((step) => <li>{step}</li>)}
+      </ol>
+    </Section>
+
+    <Section title={ui.lessons}>
+      <ul class="lessons">
+        {c.lessons.map((lesson) => <li>{lesson}</li>)}
+      </ul>
+    </Section>
+
+    <Section>
+      <nav class="no-print">
+        <a href={homePath(lang)}>{ui.backHome}</a>
+      </nav>
+    </Section>
+  </main>
+</Layout>
+
+<style>
+  main {
+    padding: 4rem;
+    margin: auto;
+    width: 100%;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+  }
+
+  nav a {
+    color: #555;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  header {
+    margin-top: 2rem;
+  }
+
+  time {
+    color: #777;
+    font-size: 0.8rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 4px 0 12px;
+    text-wrap: balance;
+  }
+
+  .summary {
+    font-size: 1rem;
+    color: #444;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tags li {
+    background: #eee;
+    border-radius: 6px;
+    color: #444;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+  }
+
+  ol,
+  .lessons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 1.2rem;
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  .lessons {
+    list-style: disc;
+  }
+
+  pre {
+    background: #f6f6f6;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    margin-top: 12px;
+    overflow-x: auto;
+    padding: 12px;
+  }
+
+  @media (width <= 700px) {
+    main {
+      padding: 2rem;
+    }
+  }
+</style>

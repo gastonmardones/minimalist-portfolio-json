@@ -2,10 +2,12 @@
 import GitHub from "@/icons/GitHub.astro"
 import Section from "../Section.astro"
 
-import { projects } from "@cv"
+import { getCV, getLang, t } from "@/i18n"
+const lang = getLang(Astro.url)
+const { projects } = getCV(lang)
 ---
 
-<Section title="Proyectos">
+<Section title={t(lang).projects}>
   <ul>
     {
       projects.map(
@@ -38,7 +40,7 @@ import { projects } from "@cv"
                   <p>{description}</p>
                 </header>
                 <footer>
-                  {highlights.map((highlight) => {
+                  {(highlights as string[]).map((highlight) => {
                     return <span>{highlight}</span>
                   })}
                 </footer>

@@ -14,7 +14,9 @@ import Next from "@/icons/next.astro"
 import Django from "@/icons/django.astro"
 import Python from "@/icons/python.astro"
 import Astrojs from "@/icons/astro.astro"
-import { skills } from "@cv"
+import { getCV, getLang, t } from "@/i18n"
+const lang = getLang(Astro.url)
+const { skills } = getCV(lang)
 
 const SKILLS_ICONS: Record<string, any> = {
   HTML,
@@ -34,7 +36,7 @@ const SKILLS_ICONS: Record<string, any> = {
 }
 ---
 
-<Section title="Habilidades">
+<Section title={t(lang).skills}>
   <ul>
     {
       skills.map(({ name }) => {

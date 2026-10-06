@@ -1,0 +1,15 @@
+---
+import CaseDetail from "@/components/CaseDetail.astro"
+import { CASES, type Case } from "@/data/cases"
+
+export function getStaticPaths() {
+  return CASES.map((caseStudy) => ({
+    params: { slug: caseStudy.slug },
+    props: { caseStudy },
+  }))
+}
+
+const { caseStudy } = Astro.props as { caseStudy: Case }
+---
+
+<CaseDetail caseStudy={caseStudy} />

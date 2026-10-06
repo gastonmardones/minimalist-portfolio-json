@@ -1,37 +1,57 @@
 ---
-import { basics } from "@cv"
+import { getCV, getLang, homePath, type Lang } from "@/i18n"
 
 interface Props {
   title: string
+  description?: string
+  // Ruta equivalente en cada idioma (para hreflang y el selector)
+  alternates?: Record<Lang, string>
 }
 
-const { title } = Astro.props
+const lang = getLang(Astro.url)
+const { basics } = getCV(lang)
+const { image, summary } = basics
 
-const { image, summary, url } = basics
+const {
+  title,
+  description = summary,
+  alternates = { es: homePath("es"), en: homePath("en") },
+} = Astro.props
+
+const site = Astro.site ?? new URL(basics.url)
+const canonical = new URL(Astro.url.pathname, site).href
+const ogImage = new URL(lang === "en" ? "/og-en.png" : "/og.png", site).href
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <title>{title}</title>
-    <meta name="description" content={summary} />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" as="image" href={image} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={new URL(alternates.es, site).href} />
+    <link rel="alternate" hreflang="en" href={new URL(alternates.en, site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates.es, site).href} />
 
-    <meta property="og:url" content={url} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "es_AR"} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={summary} />
-    <meta property="og:image" content="" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content={url.split("//")[1] ?? ''} />
-    <meta property="twitter:url" content={url} />
+    <meta property="twitter:domain" content={site.host} />
+    <meta property="twitter:url" content={canonical} />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={summary} />
-    <meta name="twitter:image" content="" />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Google tag (gtag.js) -->
     <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-WYFBN0LNFJ"></script>

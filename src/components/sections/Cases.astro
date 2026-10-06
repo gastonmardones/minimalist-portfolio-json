@@ -1,0 +1,118 @@
+---
+import Section from "../Section.astro"
+
+import { CASES } from "@/data/cases"
+import { casePath, getLang, t } from "@/i18n"
+
+const lang = getLang(Astro.url)
+const ui = t(lang)
+---
+
+<Section title={ui.cases}>
+  <p class="intro">{ui.casesIntro}</p>
+  <ul>
+    {
+      CASES.map(({ slug, tags, content }) => {
+        const { title, summary } = content[lang]
+
+        return (
+          <li>
+            <a href={casePath(lang, slug)} title={`${ui.readCase}: ${title}`}>
+              <article>
+                <header>
+                  <h3>{title}</h3>
+                  <p>{summary}</p>
+                </header>
+                <footer>
+                  {tags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </footer>
+              </article>
+            </a>
+          </li>
+        )
+      })
+    }
+  </ul>
+</Section>
+
+<style>
+  .intro {
+    margin-bottom: 16px;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-inline: -16px;
+  }
+
+  a {
+    color: inherit;
+    display: block;
+    height: 100%;
+  }
+
+  article {
+    border-radius: 8px;
+    border: 1px solid #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    padding: 16px;
+    transition: border-color 0.3s ease;
+  }
+
+  a:hover article {
+    border-color: #ccc;
+  }
+
+  a:hover h3 {
+    text-decoration: underline;
+  }
+
+  header {
+    flex: 1;
+  }
+
+  h3 {
+    color: #111;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  article p {
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+  }
+
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  footer span {
+    background: #eee;
+    border-radius: 6px;
+    color: #444;
+    font-size: 0.6rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+  }
+
+  @media (width <= 700px) {
+    ul {
+      margin-inline: 0;
+    }
+  }
+
+  @media print {
+    ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
