@@ -130,7 +130,7 @@ const config = {
             <>
               <h2 class="sub">{ui.certificates}</h2>
               {certificates.map(({ name: cert, issuer, date }) => (
-                <p class="line">
+                <p class="line cert">
                   <strong>{cert}</strong> · {issuer} <span class="date">· {year(date)}</span>
                 </p>
               ))}
@@ -448,8 +448,12 @@ const config = {
 
   .two-col {
     display: grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 2.1fr 1fr;
     gap: 18px;
+  }
+
+  .cert {
+    white-space: nowrap;
   }
 
   .line + .line {
@@ -489,6 +493,10 @@ const config = {
 
     .two-col {
       grid-template-columns: 1fr;
+    }
+
+    .cert {
+      white-space: normal;
     }
 
     .skills div {
