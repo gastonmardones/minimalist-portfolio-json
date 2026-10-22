@@ -190,6 +190,30 @@
       "date": "2025-09-04",
       "issuer": "Oracle",
       "url": ""
+    },
+    {
+      "name": "Scrum Fundamentals Certified (SFC)",
+      "date": "2025-04-21",
+      "issuer": "SCRUMstudy",
+      "url": ""
+    },
+    {
+      "name": "Python Programming with Red Hat (AD141) v9.0 - 32 h",
+      "date": "2026-10-21",
+      "issuer": "Red Hat",
+      "url": "https://www.credly.com/badges/b9b7218a-54ff-41f1-ac57-eb206185f658"
+    },
+    {
+      "name": "Red Hat OpenShift Administration I: Operating a Production Cluster (DO180) v4.18 - 32 h",
+      "date": "2026-10-21",
+      "issuer": "Red Hat",
+      "url": "https://www.credly.com/badges/44e619b6-01a2-4b8a-a9c9-a0d2e750d0ba"
+    },
+    {
+      "name": "Red Hat OpenShift Administration II: Configuring a Production Cluster (DO280) v4.22 - 13 h",
+      "date": "2026-10-21",
+      "issuer": "Red Hat",
+      "url": "https://www.credly.com/badges/a1914dfe-1ecf-47ac-abb2-aab210c9424d"
     }
   ],
   "publications": [
