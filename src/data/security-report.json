@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-22T20:12:57.715Z",
-  "commit": "907429d",
-  "runUrl": "https://github.com/gastonmardones/minimalist-portfolio-json/actions/runs/39846631549",
+  "generatedAt": "2026-10-22T20:16:59.246Z",
+  "commit": "f340d09",
+  "runUrl": "https://github.com/gastonmardones/minimalist-portfolio-json/actions/runs/39847194986",
   "checks": {
     "secrets": {
       "status": "fail",
@@ -58,7 +58,7 @@
       "status": "warn",
       "tool": "Lighthouse",
       "summary": {
-        "performance": 74,
+        "performance": 75,
         "accessibility": 100,
         "bestPractices": 96,
         "seo": 100
