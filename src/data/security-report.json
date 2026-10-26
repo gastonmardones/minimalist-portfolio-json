@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-22T20:16:59.246Z",
-  "commit": "f340d09",
-  "runUrl": "https://github.com/gastonmardones/minimalist-portfolio-json/actions/runs/39847194986",
+  "generatedAt": "2026-10-26T17:52:20.574Z",
+  "commit": "90f6ab6",
+  "runUrl": "https://github.com/gastonmardones/minimalist-portfolio-json/actions/runs/40372397316",
   "checks": {
     "secrets": {
       "status": "fail",
@@ -21,12 +21,12 @@
       }
     },
     "deps": {
-      "status": "pass",
+      "status": "fail",
       "tool": "npm audit",
       "summary": {
         "critical": 0,
-        "high": 0,
-        "moderate": 0,
+        "high": 2,
+        "moderate": 1,
         "low": 0
       }
     },
